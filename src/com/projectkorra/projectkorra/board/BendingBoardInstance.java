@@ -38,7 +38,7 @@ public class BendingBoardInstance {
 		selectedSlot = player.getInventory().getHeldItemSlot() + 1;
 
 		bendingBoard = Bukkit.getScoreboardManager().getNewScoreboard();
-		
+
 		String title = ChatColor.translateAlternateColorCodes('&', ConfigManager.languageConfig.get().getString("Board.Title"));
 		bendingSlots = bendingBoard.registerNewObjective("Board Slots", "dummy", title);
 		bendingSlots.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -107,10 +107,10 @@ public class BendingBoardInstance {
 	public void updateMisc(String text, boolean show, boolean isCombo) {
 		String selection = ChatColor.translateAlternateColorCodes('&', ConfigManager.languageConfig.get().getString("Board.SelectionPrefix"));
 		String prefix = String.join("", Collections.nCopies(ChatColor.stripColor(selection).length(), " "));
-		
+
 		String miscSeparator = ChatColor.translateAlternateColorCodes('&', ConfigManager.languageConfig.get().getString("Board.MiscSeparator"));
 		String alignedText = prefix + text;
-		
+
 		if (show) {
 			if (misc.isEmpty()) {
 				bendingSlots.getScore(miscSeparator).setScore(-10);

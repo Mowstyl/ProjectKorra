@@ -103,7 +103,7 @@ public class BendingBoardManager {
 			if (bPlayer == null) {
 				return false;
 			}
-			
+
 			scoreboardPlayers.put(player, new BendingBoardInstance(bPlayer));
 		}
 
