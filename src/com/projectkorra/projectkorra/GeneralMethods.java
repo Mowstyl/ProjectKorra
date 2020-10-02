@@ -1682,6 +1682,23 @@ public class GeneralMethods {
 							|| (!kPlayer.getKingdom().equals(kingdom) && !kPlayer.getKingdom().hasAttribute(kingdom, KingdomRelation.Attribute.BUILD))) { // Player is not a member of this kingdom and cannot build here; deny
 						return true;
 					}
+					if (land.getStructure() != null && land.getStructure() instanceof Regulator) {
+						final Regulator regulator = (Regulator) land.getStructure();
+						if (regulator.hasAttribute(player, Attribute.BUILD)) {
+							// There is a regulator on site which allows the player to build; allow bending
+							return false;
+						}
+					}
+					if (!kPlayer.hasKingdom()) {
+						// Player has no kingdom, deny
+						return true;
+					} else if (kPlayer.getKingdom().equals(kingdom) && !kPlayer.hasPermission(KingdomPermission.BUILD)) {
+						// Player is a member of this kingdom but cannot build here, deny
+						return true;
+					} else if (!kPlayer.getKingdom().equals(kingdom) && !kPlayer.getKingdom().hasAttribute(kingdom, KingdomRelation.Attribute.BUILD)) {
+						// Player is not a member of this kingdom and cannot build here, deny
+						return true;
+					}
 				}
 			}
 
@@ -1749,7 +1766,7 @@ public class GeneralMethods {
 	}
 
 	public static boolean isWeapon(final Material mat) {
-	
+
 		switch(mat) {
 			case BOW:
 			case CROSSBOW:
@@ -2458,17 +2475,17 @@ public class GeneralMethods {
 	public static void setVelocity(Entity entity, Vector vector) {
 		setVelocity(null,entity,vector);
 	}
-	
+
 	public static void setVelocity(Ability ability, Entity entity, Vector vector) {
 		final AbilityVelocityAffectEntityEvent event = new AbilityVelocityAffectEntityEvent(ability, entity, vector);
 		Bukkit.getServer().getPluginManager().callEvent(event);
-		if (event.isCancelled()) 
+		if (event.isCancelled())
 			return;
-		
+
 		Vector velocity = event.getVelocity();
 		if(velocity == null || Double.isNaN(velocity.length()))
 		    return;
-		
+
 		if (entity instanceof TNTPrimed) {
 			if (ConfigManager.defaultConfig.get().getBoolean("Properties.BendingAffectFallingSand.TNT")) {
 				velocity.multiply(ConfigManager.defaultConfig.get().getDouble("Properties.BendingAffectFallingSand.TNTStrengthMultiplier"));
