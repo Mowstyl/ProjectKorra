@@ -1683,8 +1683,7 @@ public class GeneralMethods {
 						return true;
 					}
 					if (land.getStructure() != null && land.getStructure() instanceof Regulator) {
-						final Regulator regulator = (Regulator) land.getStructure();
-						if (regulator.hasAttribute(player, Attribute.BUILD)) {
+						if (((Regulator) land.getStructure()).hasAttribute(player, Attribute.BUILD)) {
 							// There is a regulator on site which allows the player to build; allow bending
 							return false;
 						}
@@ -1692,7 +1691,7 @@ public class GeneralMethods {
 					if (!kPlayer.hasKingdom()) {
 						// Player has no kingdom, deny
 						return true;
-					} else if (kPlayer.getKingdom().equals(kingdom) && !kPlayer.hasPermission(KingdomPermission.BUILD)) {
+					} else if (kPlayer.getKingdom().equals(kingdom) && !kPlayer.hasPermission(DefaultKingdomPermission.BUILD)) {
 						// Player is a member of this kingdom but cannot build here, deny
 						return true;
 					} else if (!kPlayer.getKingdom().equals(kingdom) && !kPlayer.getKingdom().hasAttribute(kingdom, KingdomRelation.Attribute.BUILD)) {
