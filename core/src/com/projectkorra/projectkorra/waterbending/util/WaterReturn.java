@@ -2,6 +2,7 @@ package com.projectkorra.projectkorra.waterbending.util;
 
 import java.util.HashMap;
 
+import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.versions.IBottleFinder;
 import com.projectkorra.projectkorra.versions.legacy.LegacyBottleFinder;
 import com.projectkorra.projectkorra.versions.modern.ModernBottleFinder;
@@ -60,7 +61,7 @@ public class WaterReturn extends WaterAbility {
 		if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
 			this.remove();
 			return;
-		} else if (!this.hasEmptyWaterBottle()) {
+		} else if (!this.hasEmptyWaterBottle() || bPlayer.hasWaterPouch()) {
 			this.remove();
 			return;
 		} else if (System.currentTimeMillis() < this.time + this.interval) {
@@ -159,6 +160,8 @@ public class WaterReturn extends WaterAbility {
 		if (hasAbility(player, WaterReturn.class) || isBending(player)) {
 			return false;
 		}
+		if (BendingPlayer.getBendingPlayer(player).hasWaterPouch())
+			return true;
 		final PlayerInventory inventory = player.getInventory();
 
 		return WaterReturn.firstWaterBottle(inventory) >= 0;
