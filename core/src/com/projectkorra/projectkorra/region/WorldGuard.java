@@ -1,11 +1,14 @@
 package com.projectkorra.projectkorra.region;
 
+import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
+import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -43,18 +46,20 @@ class WorldGuard extends RegionProtectionBase {
         final StateFlag bendingflag = (StateFlag) com.sk89q.worldguard.WorldGuard.getInstance().getFlagRegistry().get("bending");
         if (bendingflag != null) {
             final StateFlag.State bendingflagstate = wg.getPlatform().getRegionContainer().createQuery().queryState(location, WorldGuardPlugin.inst().wrapPlayer(player), bendingflag);
-            if (bendingflagstate == null && !wg.getPlatform().getRegionContainer().createQuery().testState(location, WorldGuardPlugin.inst().wrapPlayer(player), Flags.BUILD)) {
-                return true;
-            }
-            if (bendingflagstate != null && bendingflagstate.equals(StateFlag.State.DENY)) {
-                return true;
-            }
-        } else {
-            if (!wg.getPlatform().getRegionContainer().createQuery().testState(location, WorldGuardPlugin.inst().wrapPlayer(player), Flags.BUILD)) {
+            boolean bendingDenied = bendingflagstate != null && bendingflagstate.equals(StateFlag.State.DENY);
+            if (bendingDenied) {
                 return true;
             }
         }
+        RegionQuery query = wg.getPlatform().getRegionContainer().createQuery();
+        LocalPlayer lPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+        final StateFlag.State buildFlagState = query.queryState(location, lPlayer, Flags.BUILD);
+        final StateFlag.State breakFlagState = query.queryState(location, lPlayer, Flags.BLOCK_BREAK);
+        final StateFlag.State placeFlagState = query.queryState(location, lPlayer, Flags.BLOCK_PLACE);
+        boolean buildDenied = buildFlagState != null && buildFlagState.equals(StateFlag.State.DENY);
+        boolean breakDenied = breakFlagState != null && breakFlagState.equals(StateFlag.State.DENY);
+        boolean placeDenied = placeFlagState != null && placeFlagState.equals(StateFlag.State.DENY);
 
-        return false;
+        return buildDenied || breakDenied || placeDenied;
     }
 }
