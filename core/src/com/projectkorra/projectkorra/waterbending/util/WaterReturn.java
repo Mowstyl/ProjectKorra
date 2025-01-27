@@ -3,6 +3,8 @@ package com.projectkorra.projectkorra.waterbending.util;
 import java.util.HashMap;
 
 import com.projectkorra.projectkorra.BendingPlayer;
+import com.projectkorra.projectkorra.attribute.Attribute;
+import com.projectkorra.projectkorra.attribute.markers.DayNightFactor;
 import com.projectkorra.projectkorra.versions.IBottleFinder;
 import com.projectkorra.projectkorra.versions.legacy.LegacyBottleFinder;
 import com.projectkorra.projectkorra.versions.modern.ModernBottleFinder;
@@ -32,6 +34,7 @@ public class WaterReturn extends WaterAbility {
 
 	private long time;
 	private long interval;
+	@Attribute(Attribute.RANGE) @DayNightFactor
 	private double range;
 	private Location location;
 	private TempBlock block;
@@ -45,8 +48,6 @@ public class WaterReturn extends WaterAbility {
 		this.location = block.getLocation();
 		this.range = 30;
 		this.interval = 50;
-
-		this.range = this.getNightFactor(this.range);
 
 		if (this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
 			if (isTransparent(player, block) && ((TempBlock.isTempBlock(block) && block.isLiquid()) || !block.isLiquid()) && this.hasEmptyWaterBottle()) {

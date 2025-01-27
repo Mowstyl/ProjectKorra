@@ -1,5 +1,25 @@
 package com.projectkorra.projectkorra.ability;
 
+import com.projectkorra.projectkorra.Element;
+import com.projectkorra.projectkorra.Element.SubElement;
+import com.projectkorra.projectkorra.GeneralMethods;
+import com.projectkorra.projectkorra.ProjectKorra;
+import com.projectkorra.projectkorra.ability.util.Collision;
+import com.projectkorra.projectkorra.configuration.ConfigManager;
+import com.projectkorra.projectkorra.util.LightManager;
+import com.projectkorra.projectkorra.util.ParticleEffect;
+import com.projectkorra.projectkorra.util.TempBlock;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Fire;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,30 +28,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Waterlogged;
-import org.bukkit.block.data.type.Fire;
-import org.bukkit.entity.Player;
-import org.bukkit.util.BoundingBox;
-import org.bukkit.util.Vector;
-
-import com.projectkorra.projectkorra.Element;
-import com.projectkorra.projectkorra.GeneralMethods;
-import com.projectkorra.projectkorra.ProjectKorra;
-import com.projectkorra.projectkorra.Element.SubElement;
-import com.projectkorra.projectkorra.ability.util.Collision;
-import com.projectkorra.projectkorra.configuration.ConfigManager;
-import com.projectkorra.projectkorra.util.ParticleEffect;
-import com.projectkorra.projectkorra.util.TempBlock;
 
 public abstract class FireAbility extends ElementalAbility {
 
@@ -200,6 +196,38 @@ public abstract class FireAbility extends ElementalAbility {
 		}
 	}
 
+	/**
+	 * Emits a dynamic firebending light at the specified location. This light will
+	 * remain active for a configurable amount of time before fading out. The brightness
+	 * and keep-alive time are configurable via the plugin's configuration file.
+	 *
+	 * <p>The dynamic light feature must be enabled in the configuration for this method to take effect.
+	 * Brightness should be between 1 and 15, with 1 being the dimmest and 15 the brightest.
+	 * The keep-alive time is specified in milliseconds and determines how long the light persists.
+	 *
+	 * <p>Configuration file paths:
+	 * <ul>
+	 *     <li><b>Properties.Fire.DynamicLight.Enabled</b>: Determines if dynamic light is enabled.</li>
+	 *     <li><b>Properties.Fire.DynamicLight.Brightness</b>: Sets the light brightness (1-15).</li>
+	 *     <li><b>Properties.Fire.DynamicLight.KeepAlive</b>: Specifies how long the light remains before fading (in ms).</li>
+	 * </ul>
+	 *
+	 * @param location the {@link Location} where the firebending light will be emitted
+	 * @throws IllegalArgumentException if the brightness is outside the valid range (1-15)
+	 */
+	public void emitFirebendingLight(final Location location) {
+		if (getConfig().getBoolean("Properties.Fire.DynamicLight.Enabled")) {
+			int brightness = getConfig().getInt("Properties.Fire.DynamicLight.Brightness");
+			long keepAlive = getConfig().getLong("Properties.Fire.DynamicLight.KeepAlive");
+
+			if (brightness < 1 || brightness > 15) {
+				throw new IllegalArgumentException("Properties.Fire.DynamicLight.Brightness must be between 1 and 15.");
+			}
+
+			LightManager.createLight(location).brightness(brightness).timeUntilFadeout(keepAlive).emit();
+		}
+	}
+
 	public void playFirebendingParticles(final Location loc, final int amount, final double xOffset, final double yOffset, final double zOffset) {
 		if (this.getBendingPlayer().canUseSubElement(SubElement.BLUE_FIRE)) {
 			ParticleEffect.SOUL_FIRE_FLAME.display(loc, amount, xOffset, yOffset, zOffset);
@@ -286,6 +314,7 @@ public abstract class FireAbility extends ElementalAbility {
 	 * @return The modified value
 	 */
 	@Override
+	@Deprecated
 	public double applyModifiers(double value) {
 		return GeneralMethods.applyModifiers(value, getDayFactor(1.0));
 	}
@@ -295,6 +324,7 @@ public abstract class FireAbility extends ElementalAbility {
 	 * @param value The value to modify
 	 * @return The modified value
 	 */
+	@Deprecated
 	public double applyInverseModifiers(double value) {
 		return GeneralMethods.applyInverseModifiers(value, getDayFactor(1.0));
 	}
@@ -304,6 +334,7 @@ public abstract class FireAbility extends ElementalAbility {
 	 * @param value The value to modify
 	 * @return The modified value
 	 */
+	@Deprecated
 	public double applyModifiersDamage(double value) {
 		return GeneralMethods.applyModifiers(value, getDayFactor(1.0), bPlayer.hasElement(Element.BLUE_FIRE) ? getConfig().getDouble("Properties.Fire.BlueFire.DamageFactor", 1.1) : 1);
 	}
@@ -313,6 +344,7 @@ public abstract class FireAbility extends ElementalAbility {
 	 * @param value The value to modify
 	 * @return The modified value
 	 */
+	@Deprecated
 	public double applyModifiersRange(double value) {
 		return GeneralMethods.applyModifiers(value, getDayFactor(1.0), bPlayer.hasElement(Element.BLUE_FIRE) ? getConfig().getDouble("Properties.Fire.BlueFire.RangeFactor", 1.2) : 1);
 	}
@@ -322,6 +354,7 @@ public abstract class FireAbility extends ElementalAbility {
 	 * @param value The value to modify
 	 * @return The modified value
 	 */
+	@Deprecated
 	public long applyModifiersCooldown(long value) {
 		return (long) GeneralMethods.applyInverseModifiers(value, getDayFactor(1.0), bPlayer.hasElement(Element.BLUE_FIRE) ? 1 / getConfig().getDouble("Properties.Fire.BlueFire.CooldownFactor", 0.9) : 1);
 	}

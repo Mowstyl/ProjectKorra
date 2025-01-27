@@ -19,7 +19,9 @@ import com.projectkorra.projectkorra.configuration.ConfigManager;
 public class Element {
 
 	public enum ElementType {
-		BENDING("bending", "bender", "bend"), BLOCKING("blocking", "blocker", "block"), NO_SUFFIX("", "", "");
+		BENDING("bending", "bender", "bend"),
+		BLOCKING("blocking", "blocker", "block"),
+		NO_SUFFIX("", "", "");
 
 		private String bending;
 		private String bender;
@@ -74,7 +76,7 @@ public class Element {
 	protected final Plugin plugin;
 	protected ChatColor color;
 	protected ChatColor subColor;
-	protected boolean countsTowardsAvatar = true;
+	protected boolean isAvatarElement = false;
 
 	/**
 	 * To be used when creating a new Element. Do not use for comparing
@@ -108,25 +110,10 @@ public class Element {
 	 * @param plugin The plugin that is adding the element.
 	 */
 	public Element(final String name, final ElementType type, final Plugin plugin) {
-		this(name, type, plugin, true);
-	}
-
-	/**
-	 * To be used when creating a new Element. Do not use for comparing
-	 * Elements.
-	 *
-	 * @param name Name of the new Element.
-	 * @param type ElementType specifies if its a regular element or chi style
-	 *            element.
-	 * @param plugin The plugin that is adding the element.
-	 * @param countTowardsAvatar If this element is used when calculating if a player has avatar
-	 */
-	@Experimental
-	public Element(final String name, final ElementType type, final Plugin plugin, boolean countTowardsAvatar) {
 		this.name = name;
 		this.type = type;
 		this.plugin = plugin;
-		this.countsTowardsAvatar = countTowardsAvatar;
+		this.isAvatarElement = name.equals("Air") || name.equals("Water") || name.equals("Earth") || name.equals("Fire");
 		ALL_ELEMENTS.put(name.toLowerCase(), this);
 	}
 
@@ -153,6 +140,7 @@ public class Element {
 				this.color = ChatColor.of(value);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
+				this.color = ChatColor.WHITE;
 			}
 		}
 
@@ -209,9 +197,9 @@ public class Element {
 	 * water, earth, air
 	 */
 	@Experimental
-	public boolean doesCountTowardsAvatar() {
+	public boolean isAvatarElement() {
 		if (this instanceof SubElement) return false;
-		return countsTowardsAvatar;
+		return isAvatarElement;
 	}
 
 	@Override
@@ -305,7 +293,7 @@ public class Element {
 	/**
 	 * Return all subelements belonging to a parent element.
 	 *
-	 * @param element
+	 * @param element Parent element.
 	 * @return Array of all subelements belonging to a parent element.
 	 */
 	public static SubElement[] getSubElements(final Element element) {
@@ -336,7 +324,7 @@ public class Element {
 	/**
 	 * Returns array of addon subelements belonging to a parent element.
 	 *
-	 * @param element
+	 * @param element Parent element.
 	 * @return Array of addon subelements belonging to a parent element.
 	 */
 	public static SubElement[] getAddonSubElements(final Element element) {
