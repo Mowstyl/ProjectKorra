@@ -14,6 +14,11 @@ public class BendingPlayerLoadEvent extends Event {
 	private final OfflineBendingPlayer bPlayer;
 
 	public BendingPlayerLoadEvent(final OfflineBendingPlayer bPlayer) {
+		this(bPlayer, false);
+	}
+
+	public BendingPlayerLoadEvent(final OfflineBendingPlayer bPlayer, boolean isAsync) {
+		super(isAsync);
 		this.bPlayer = bPlayer;
 	}
 
