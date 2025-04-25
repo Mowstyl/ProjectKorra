@@ -3,6 +3,7 @@ package com.projectkorra.projectkorra.firebending;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.projectkorra.projectkorra.attribute.markers.DayNightFactor;
 import org.bukkit.Location;
@@ -64,7 +65,7 @@ public class WallOfFire extends FireAbility {
 		this.random = new Random();
 		this.blocks = new ArrayList<>();
 
-		if (hasAbility(player, WallOfFire.class) && !this.bPlayer.isAvatarState()) {
+		if (hasAbility(player, WallOfFire.class)) {
 			return;
 		} else if (this.bPlayer.isOnCooldown(this)) {
 			return;
@@ -85,6 +86,7 @@ public class WallOfFire extends FireAbility {
 			return;
 		}
 
+		this.recalculateAttributes();
 		this.initializeBlocks();
 		this.start();
 	}
@@ -130,6 +132,7 @@ public class WallOfFire extends FireAbility {
 	private void display() {
 		for (final Block block : this.blocks) {
 			if (!this.isTransparent(block)) {
+				dryWetBlocks(block, this, ThreadLocalRandom.current().nextInt(5) == 0);
 				continue;
 			}
 

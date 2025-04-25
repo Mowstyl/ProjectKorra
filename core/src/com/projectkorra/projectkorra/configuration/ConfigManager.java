@@ -350,7 +350,7 @@ public class ConfigManager {
 			config.addDefault("Commands.Temp.Reduce.SuccessRemove", "Your {element}{bending}&e's expiry time has been reduced and has now expired.");
 			config.addDefault("Commands.Temp.Remove.SuccessOther", "{target}'s {element}{bending} &ehas been removed.");
 			config.addDefault("Commands.Temp.Remove.Success", "Your {element}{bending} &ehas been removed.");
-			config.addDefault("Commands.Temp.Remove.ElementNotFound", "{target} does not have {element} &etemporarily.");
+			config.addDefault("Commands.Temp.Remove.ElementNotFound", "{target} does not have {element} &ctemporarily.");
 			config.addDefault("Commands.Temp.Remove.NoElements", "{target} does not have any temporary elements.");
 			config.addDefault("Commands.Temp.Remove.SuccessAll", "Your temporary elements has been removed.");
 
@@ -727,6 +727,14 @@ public class ConfigManager {
 			final ArrayList<String> snowBlocks = new ArrayList<>();
 			snowBlocks.add("#snow"); // added in 1.17
 
+			/*
+			final ArrayList<String> waterTransformableBlocks = new ArrayList<>();
+			waterTransformableBlocks.add("MUD>DIRT");
+			waterTransformableBlocks.add("PACKED_MUD>DIRT");
+			waterTransformableBlocks.add("MUDDY_MANGROVE_ROOTS>MANGROVE_ROOTS");
+			waterTransformableBlocks.add("WET_SPONGE>SPONGE");
+			 */
+
 			config.addDefault("Properties.UpdateChecker", true);
 			config.addDefault("Properties.Statistics", true);
 			config.addDefault("Properties.DatabaseCooldowns", true);
@@ -779,6 +787,7 @@ public class ConfigManager {
 			config.addDefault("Properties.Water.IceBlocks", iceBlocks);
 			config.addDefault("Properties.Water.PlantBlocks", plantBlocks);
 			config.addDefault("Properties.Water.SnowBlocks", snowBlocks);
+			// config.addDefault("Properties.Water.TransformableBlocks", waterTransformableBlocks);
 			config.addDefault("Properties.Water.NightFactor", 1.25);
 			config.addDefault("Properties.Water.PlaySound", true);
 			config.addDefault("Properties.Water.WaterSound.Sound", "BLOCK_WATER_AMBIENT");
@@ -790,6 +799,9 @@ public class ConfigManager {
 			config.addDefault("Properties.Water.PlantSound.Sound", "BLOCK_GRASS_STEP");
 			config.addDefault("Properties.Water.IceSound.Volume", 1);
 			config.addDefault("Properties.Water.IceSound.Pitch", 1);
+			config.addDefault("Properties.Water.MudSound.Sound", "BLOCK_MUD_STEP");
+			config.addDefault("Properties.Water.MudSound.Volume", 1);
+			config.addDefault("Properties.Water.MudSound.Pitch", 1);
 
 			config.addDefault("Properties.Earth.DynamicSourcing", true);
 			config.addDefault("Properties.Earth.RevertEarthbending", true);
@@ -813,6 +825,9 @@ public class ConfigManager {
 			config.addDefault("Properties.Earth.LavaSound.Sound", "BLOCK_LAVA_AMBIENT");
 			config.addDefault("Properties.Earth.LavaSound.Volume", 1);
 			config.addDefault("Properties.Earth.LavaSound.Pitch", 1);
+			config.addDefault("Properties.Earth.MudSound.Sound", "BLOCK_MUD_PLACE");
+			config.addDefault("Properties.Earth.MudSound.Volume", 1);
+			config.addDefault("Properties.Earth.MudSound.Pitch", 1);
 
 			config.addDefault("Properties.Fire.CanBendWithWeapons", true);
 			config.addDefault("Properties.Fire.DayFactor", 1.25);
@@ -1724,10 +1739,14 @@ public class ConfigManager {
 			config.addDefault("LowHealth.BoostHealth.YellowHearts", false);
 			config.addDefault("LowHealth.PreventDeath", false);
 
-			config.addDefault("PotionEffects.Regeneration", 4);
-			config.addDefault("PotionEffects.Speed", 3);
-			config.addDefault("PotionEffects.Resistance", 3);
-			config.addDefault("PotionEffects.Fire_Resistance", 3);
+			//Because the effects are "keys", they are always added back if removed.
+			//We also check "Abilities" instead of PotionEffects in case users remove the entire section
+			if (!config.contains("Abilities")) {
+				config.addDefault("PotionEffects.Regeneration", 4);
+				config.addDefault("PotionEffects.Speed", 3);
+				config.addDefault("PotionEffects.Resistance", 3);
+				config.addDefault("PotionEffects.Fire_Resistance", 3);
+			}
 
 			config.addDefault("Abilities._All.Damage", "x2.0");
 			config.addDefault("Abilities._All.Cooldown", "x0.5");
@@ -1954,16 +1973,16 @@ public class ConfigManager {
 
 		//Migrate potion effects.
 		if (config.getBoolean("Abilities.Avatar.AvatarState.PotionEffects.Regeneration.Enabled")) {
-			avatarState.set("PotionEffects.regeneration", config.getInt("Abilities.Avatar.AvatarState.PotionEffects.Regeneration.Power"));
+			avatarState.set("PotionEffects.Regeneration", config.getInt("Abilities.Avatar.AvatarState.PotionEffects.Regeneration.Power"));
 		}
 		if (config.getBoolean("Abilities.Avatar.AvatarState.PotionEffects.Speed.Enabled")) {
-			avatarState.set("PotionEffects.speed", config.getInt("Abilities.Avatar.AvatarState.PotionEffects.Speed.Power"));
+			avatarState.set("PotionEffects.Speed", config.getInt("Abilities.Avatar.AvatarState.PotionEffects.Speed.Power"));
 		}
 		if (config.getBoolean("Abilities.Avatar.AvatarState.PotionEffects.DamageResistance.Enabled")) {
-			avatarState.set("PotionEffects.resistance", config.getInt("Abilities.Avatar.AvatarState.PotionEffects.DamageResistance.Power"));
+			avatarState.set("PotionEffects.Resistance", config.getInt("Abilities.Avatar.AvatarState.PotionEffects.DamageResistance.Power"));
 		}
 		if (config.getBoolean("Abilities.Avatar.AvatarState.PotionEffects.FireResistance.Enabled")) {
-			avatarState.set("PotionEffects.fire_resistance", config.getInt("Abilities.Avatar.AvatarState.PotionEffects.FireResistance.Power"));
+			avatarState.set("PotionEffects.Fire_Resistance", config.getInt("Abilities.Avatar.AvatarState.PotionEffects.FireResistance.Power"));
 		}
 
 		//Migrate all other ability keys
