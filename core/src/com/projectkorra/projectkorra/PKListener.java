@@ -131,6 +131,7 @@ import com.projectkorra.projectkorra.waterbending.WaterSpoutWave;
 import com.projectkorra.projectkorra.waterbending.blood.Bloodbending;
 import com.projectkorra.projectkorra.waterbending.combo.IceBullet;
 import com.projectkorra.projectkorra.waterbending.healing.HealingWaters;
+import com.projectkorra.projectkorra.waterbending.ice.FrostBreath;
 import com.projectkorra.projectkorra.waterbending.ice.IceBlast;
 import com.projectkorra.projectkorra.waterbending.ice.IceSpikeBlast;
 import com.projectkorra.projectkorra.waterbending.ice.PhaseChange;
@@ -943,7 +944,11 @@ public class PKListener implements Listener {
 				if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Shockwave")) {
 					new Shockwave(player, true);
 				} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Catapult")) {
-					new EarthPillars(player, true);
+					if (ConfigManager.defaultConfig.get().getBoolean("Abilities.Earth.EarthPillars.Enabled")) {
+						if (bPlayer.canBend(CoreAbility.getAbility(EarthPillars.class))) {
+							new EarthPillars(player, true);
+						}
+					}
 				}
 			}
 
@@ -1611,6 +1616,8 @@ public class PKListener implements Listener {
 //						} else {
 //							new PlantTether(player);
 //						}
+					} else if (abil.equalsIgnoreCase("FrostBreath")) {
+						new FrostBreath(player);
 					}
 				}
 			}
@@ -2192,6 +2199,7 @@ public class PKListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBindChange(final PlayerBindChangeEvent event) {
 		if (!event.isOnline()) return;
+		if (event.isCancelled()) return;
 		final Player player = (Player) event.getPlayer();
 		if (player == null) return;
 		if (event.isMultiAbility()) {
