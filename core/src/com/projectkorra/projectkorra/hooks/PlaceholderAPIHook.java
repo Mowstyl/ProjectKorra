@@ -120,6 +120,6 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 	public List<String> getPlaceholders() {
 		return Arrays.asList("slot", "slot1", "slot2", "slot3", "slot4", "slot5", "slot6", "slot7", "slot8", "slot9",
 				"element", "elementcolor", "elements", "subelements", "element_prefix",
-				"cooldown_<ability>", "cooldown_slot", "cooldown_slot<1-9>", "cooldown_choose");)
+				"cooldown_<ability>", "cooldown_slot", "cooldown_slot<1-9>", "cooldown_choose");
 	}
 }
