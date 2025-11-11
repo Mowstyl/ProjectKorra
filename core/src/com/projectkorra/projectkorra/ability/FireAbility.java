@@ -7,7 +7,6 @@ import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.util.Collision;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.LightManager;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.projectkorra.util.TempBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -58,7 +57,8 @@ public abstract class FireAbility extends ElementalAbility {
 	public void handleCollision(final Collision collision) {
 		super.handleCollision(collision);
 		if (collision.isRemovingFirst()) {
-			ParticleEffect.BLOCK_CRACK.display(collision.getLocationFirst(), 10, 1, 1, 1, 0.1, getFireType().createBlockData());
+			Location loc = collision.getLocationFirst();
+			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 10, 1, 1, 1, 0.1, getFireType().createBlockData());
 		}
 	}
 	/**
@@ -255,9 +255,9 @@ public abstract class FireAbility extends ElementalAbility {
 
 	public void playFirebendingParticles(final Location loc, final int amount, final double xOffset, final double yOffset, final double zOffset) {
 		if (this.getBendingPlayer().canUseSubElement(SubElement.BLUE_FIRE)) {
-			ParticleEffect.SOUL_FIRE_FLAME.display(loc, amount, xOffset, yOffset, zOffset);
+			loc.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, loc, amount, xOffset, yOffset, zOffset);
 		} else {
-			ParticleEffect.FLAME.display(loc, amount, xOffset, yOffset, zOffset);
+			loc.getWorld().spawnParticle(Particle.FLAME, loc, amount, xOffset, yOffset, zOffset);
 		}
 	}
 

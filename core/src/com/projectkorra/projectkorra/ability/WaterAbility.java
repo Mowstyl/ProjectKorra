@@ -7,11 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.projectkorra.projectkorra.region.RegionProtection;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.Tag;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
@@ -25,7 +21,6 @@ import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.util.Collision;
 import com.projectkorra.projectkorra.firebending.HeatControl;
 import com.projectkorra.projectkorra.util.BlockSource;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.projectkorra.util.TempBlock;
 import com.projectkorra.projectkorra.waterbending.SurgeWall;
 import com.projectkorra.projectkorra.waterbending.SurgeWave;
@@ -84,7 +79,8 @@ public abstract class WaterAbility extends ElementalAbility {
 	public void handleCollision(final Collision collision) {
 		super.handleCollision(collision);
 		if (collision.isRemovingFirst()) {
-			ParticleEffect.BLOCK_CRACK.display(collision.getLocationFirst(), 10, 1, 1, 1, 0.1, collision.getLocationFirst().getBlock().getBlockData());
+			Location loc = collision.getLocationFirst();
+			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 10, 1, 1, 1, 0.1, collision.getLocationFirst().getBlock().getBlockData());
 		}
 	}
 
@@ -373,7 +369,8 @@ public abstract class WaterAbility extends ElementalAbility {
 	 */
 
 	public static void playFocusWaterEffect(final Block block) {
-		ParticleEffect.SMOKE_NORMAL.display(block.getLocation().add(0.5, 0.5, 0.5), 4);
+		Location loc = block.getLocation().add(0.5, 0.5, 0.5);
+		loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 4);
 	}
 
 	public static void playIcebendingSound(final Location loc) {

@@ -200,10 +200,12 @@ public class TempBlock {
 	 * @param block The block location
 	 */
 	public static void removeBlock(final Block block) {
-		instances_.get(block).forEach(t -> {
-			REVERT_QUEUE.remove(t);
-			remove(t);
-		});
+		if (instances_.containsKey(block)) {
+			instances_.get(block).forEach(t -> {
+				REVERT_QUEUE.remove(t);
+				remove(t);
+			});
+		}
 	}
 
 	/**

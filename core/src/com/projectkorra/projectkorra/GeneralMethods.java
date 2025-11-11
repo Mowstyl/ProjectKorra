@@ -43,7 +43,6 @@ import com.projectkorra.projectkorra.util.ChatUtil;
 import com.projectkorra.projectkorra.util.ColoredParticle;
 import com.projectkorra.projectkorra.util.LightManager;
 import com.projectkorra.projectkorra.util.MovementHandler;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.projectkorra.util.RevertChecker;
 import com.projectkorra.projectkorra.util.TempArmor;
 import com.projectkorra.projectkorra.util.TempArmorStand;
@@ -55,12 +54,7 @@ import com.projectkorra.projectkorra.waterbending.blood.Bloodbending;
 import com.projectkorra.projectkorra.waterbending.util.WaterbendingManager;
 import io.lumine.mythic.lib.UtilityMethods;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -231,7 +225,7 @@ public class GeneralMethods {
 	}
 
 	@Deprecated
-	public static void displayColoredParticle(final Location loc, ParticleEffect type, final String hexVal, final float xOffset, final float yOffset, final float zOffset) {
+	public static void displayColoredParticle(final Location loc, Particle type, final String hexVal, final float xOffset, final float yOffset, final float zOffset) {
 		int r = 0;
 		int g = 0;
 		int b = 0;
@@ -254,20 +248,20 @@ public class GeneralMethods {
 		loc.setY(loc.getY() + (Math.random() * 2 - 1) * yOffset);
 		loc.setZ(loc.getZ() + (Math.random() * 2 - 1) * zOffset);
 
-		if (type != ParticleEffect.RED_DUST && type != ParticleEffect.REDSTONE && type != ParticleEffect.SPELL_MOB && type != ParticleEffect.MOB_SPELL && type != ParticleEffect.SPELL_MOB_AMBIENT && type != ParticleEffect.MOB_SPELL_AMBIENT) {
-			type = ParticleEffect.RED_DUST;
+		if (type != Particle.REDSTONE && type != Particle.SPELL_MOB && type != Particle.SPELL_MOB_AMBIENT) {
+			type = Particle.REDSTONE;
 		}
-		type.display(loc, 0, red, green, blue);
+		loc.getWorld().spawnParticle(type, loc, 0, red, green, blue);
 	}
 
 	@Deprecated
 	public static void displayColoredParticle(final Location loc, final String hexVal) {
-		displayColoredParticle(loc, ParticleEffect.RED_DUST, hexVal, 0, 0, 0);
+		displayColoredParticle(loc, Particle.REDSTONE, hexVal, 0, 0, 0);
 	}
 
 	@Deprecated
 	public static void displayColoredParticle(final Location loc, final String hexVal, final float xOffset, final float yOffset, final float zOffset) {
-		displayColoredParticle(loc, ParticleEffect.RED_DUST, hexVal, xOffset, yOffset, zOffset);
+		displayColoredParticle(loc, Particle.REDSTONE, hexVal, xOffset, yOffset, zOffset);
 	}
 
 	public static void displayColoredParticle(String hexVal, final Location loc, final int amount, final double offsetX, final double offsetY, final double offsetZ) {

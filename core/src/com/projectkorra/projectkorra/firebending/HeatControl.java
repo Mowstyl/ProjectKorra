@@ -13,10 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.projectkorra.projectkorra.attribute.markers.DayNightFactor;
 import com.projectkorra.projectkorra.region.RegionProtection;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
@@ -32,7 +29,6 @@ import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.FireAbility;
 import com.projectkorra.projectkorra.attribute.Attribute;
 import com.projectkorra.projectkorra.earthbending.lava.LavaFlow;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.projectkorra.util.TempBlock;
 import com.projectkorra.projectkorra.waterbending.SurgeWave;
 import com.projectkorra.projectkorra.waterbending.Torrent;
@@ -298,7 +294,8 @@ public class HeatControl extends FireAbility {
 	public void displayCookParticles() {
 		playFirebendingParticles(this.player.getLocation().clone().add(0, 1, 0), 3, 0.5, 0.5, 0.5);
 		emitFirebendingLight(this.player.getLocation().clone().add(0, 1, 0));
-		ParticleEffect.SMOKE_NORMAL.display(this.player.getLocation().clone().add(0, 1, 0), 2, 0.5, 0.5, 0.5);
+		Location loc = this.player.getLocation().clone().add(0, 1, 0);
+		loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 2, 0.5, 0.5, 0.5);
 	}
 
 	public static boolean isCookable(final Material material) {
@@ -399,10 +396,12 @@ public class HeatControl extends FireAbility {
 				@Override
 				public void run() {
 					if (tempBlock != null) {
-						ParticleEffect.SMOKE_NORMAL.display(tempBlock.getBlock().getLocation().clone().add(0.5, 1, 0.5), 3, 0.1, 0.1, 0.1, 0.01);
+						Location loc = tempBlock.getBlock().getLocation().clone();
 						if (HeatControl.this.randy.nextInt(3) == 0) {
-							tempBlock.getBlock().getWorld().playSound(tempBlock.getBlock().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.5F, 1);
+							tempBlock.getBlock().getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 0.5F, 1);
 						}
+						loc.add(0.5, 1, 0.5);
+						loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 3, 0.1, 0.1, 0.1, 0.01);
 
 						LavaFlow.removeBlock(tempBlock.getBlock());
 					}
@@ -433,10 +432,12 @@ public class HeatControl extends FireAbility {
 						}
 					}
 
-					ParticleEffect.SMOKE_NORMAL.display(tempBlock.getBlock().getLocation().clone().add(0.5, 1, 0.5), 3, 0.1, 0.1, 0.1, 0.01);
+					Location loc = tempBlock.getBlock().getLocation().clone();
 					if (HeatControl.this.randy.nextInt(3) == 0) {
 						tempBlock.getBlock().getWorld().playSound(tempBlock.getBlock().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.5F, 1);
 					}
+					loc.add(0.5, 1, 0.5);
+					loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 3, 0.1, 0.1, 0.1, 0.01);
 				}
 			}
 		}.runTaskLater(ProjectKorra.plugin, 20);

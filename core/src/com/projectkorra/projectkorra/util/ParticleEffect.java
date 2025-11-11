@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * @deprecated Marked for removal. Use {@link org.bukkit.World#spawnParticle} instead
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public enum ParticleEffect {
 	
 	ASH (Particle.ASH),

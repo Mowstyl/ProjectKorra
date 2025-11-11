@@ -11,6 +11,7 @@ import com.projectkorra.projectkorra.util.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -31,7 +32,6 @@ import com.projectkorra.projectkorra.attribute.Attribute;
 import com.projectkorra.projectkorra.firebending.FireJet;
 import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.MovementHandler;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.projectkorra.waterbending.WaterSpout;
 
 public class FlightMultiAbility extends FlightAbility implements MultiAbility {
@@ -267,8 +267,10 @@ public class FlightMultiAbility extends FlightAbility implements MultiAbility {
 	}
 
 	private void particles() {
-		ParticleEffect.CLOUD.display(GeneralMethods.getRightSide(this.player.getLocation(), 0.55).add(this.player.getVelocity().clone()), 1, 0, 0, 0);
-		ParticleEffect.CLOUD.display(GeneralMethods.getLeftSide(this.player.getLocation(), 0.55).add(this.player.getVelocity().clone()), 1, 0, 0, 0);
+		Location left = GeneralMethods.getLeftSide(this.player.getLocation(), 0.55).add(this.player.getVelocity().clone()),
+				 right = GeneralMethods.getRightSide(this.player.getLocation(), 0.55).add(this.player.getVelocity().clone());
+		right.getWorld().spawnParticle(Particle.CLOUD, right, 1, 0, 0, 0);
+		left.getWorld().spawnParticle(Particle.CLOUD, left, 1, 0, 0, 0);
 	}
 
 	private String speed() {

@@ -16,7 +16,6 @@ import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.util.Collision;
 import com.projectkorra.projectkorra.airbending.AirSpout;
 import com.projectkorra.projectkorra.airbending.Suffocate;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
 public abstract class AirAbility extends ElementalAbility {
 
@@ -43,7 +42,8 @@ public abstract class AirAbility extends ElementalAbility {
 	public void handleCollision(final Collision collision) {
 		super.handleCollision(collision);
 		if (collision.isRemovingFirst()) {
-			ParticleEffect.BLOCK_CRACK.display(collision.getLocationFirst(), 10, 1, 1, 1, 0.1, Material.WHITE_WOOL.createBlockData());
+			Location loc = collision.getLocationFirst();
+			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 10, 1, 1, 1, 0.1, Material.WHITE_WOOL.createBlockData());
 		}
 	}
 
@@ -72,14 +72,14 @@ public abstract class AirAbility extends ElementalAbility {
 	 *
 	 * @return Config specified ParticleEffect
 	 */
-	public static ParticleEffect getAirbendingParticles() {
+	public static Particle getAirbendingParticles() {
 		final String particle = getConfig().getString("Properties.Air.Particles").toUpperCase();
 
 		try {
-			return ParticleEffect.valueOf(particle);
+			return Particle.valueOf(particle);
 		} catch (IllegalArgumentException e) {
 			ProjectKorra.log.warning("Your current value for 'Properties.Air.Particles' is not valid. Returning to the default SPELL particle.");
-			return ParticleEffect.SPELL;
+			return Particle.SPELL;
 		}
 	}
 
@@ -120,7 +120,11 @@ public abstract class AirAbility extends ElementalAbility {
 	 * @param zOffset The zOffset to use
 	 */
 	public static void playAirbendingParticles(final Location loc, final int amount, final double xOffset, final double yOffset, final double zOffset) {
-		getAirbendingParticles().display(loc, amount, xOffset, yOffset, zOffset);
+		Particle particle = getAirbendingParticles();
+		if (particle == Particle.SPELL)
+			loc.getWorld().spawnParticle(getAirbendingParticles(), loc, amount, xOffset, yOffset, zOffset, 1);
+		else
+			loc.getWorld().spawnParticle(getAirbendingParticles(), loc, amount, xOffset, yOffset, zOffset);
 	}
 
 	/**

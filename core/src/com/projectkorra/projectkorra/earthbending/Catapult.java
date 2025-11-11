@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -15,7 +16,6 @@ import com.projectkorra.projectkorra.command.Commands;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.EarthAbility;
 import com.projectkorra.projectkorra.attribute.Attribute;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 
 public class Catapult extends EarthAbility {
 
@@ -98,8 +98,10 @@ public class Catapult extends EarthAbility {
 					this.stage++;
 					this.stageStart = System.currentTimeMillis();
 					final Random random = new Random();
-					ParticleEffect.BLOCK_DUST.display(this.player.getLocation(), 15, random.nextFloat(), random.nextFloat(), random.nextFloat(), this.bentBlockData);
-					ParticleEffect.BLOCK_DUST.display(this.player.getLocation().add(0, 0.5, 0), 10, random.nextFloat(), random.nextFloat(), random.nextFloat(), this.bentBlockData);
+					Location loc = this.player.getLocation();
+					loc.getWorld().spawnParticle(Particle.BLOCK_DUST, loc, 15, random.nextFloat(), random.nextFloat(), random.nextFloat(), this.bentBlockData);
+					loc.add(0, 0.5, 0);
+					loc.getWorld().spawnParticle(Particle.BLOCK_DUST, loc, 10, random.nextFloat(), random.nextFloat(), random.nextFloat(), this.bentBlockData);
 					this.player.getWorld().playEffect(this.player.getLocation(), Effect.GHAST_SHOOT, 0, 10);
 				}
 			}

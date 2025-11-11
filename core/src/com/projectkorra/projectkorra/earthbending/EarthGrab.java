@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -33,7 +34,6 @@ import com.projectkorra.projectkorra.ability.ElementalAbility;
 import com.projectkorra.projectkorra.attribute.Attribute;
 import com.projectkorra.projectkorra.avatar.AvatarState;
 import com.projectkorra.projectkorra.util.MovementHandler;
-import com.projectkorra.projectkorra.util.ParticleEffect;
 import com.projectkorra.projectkorra.util.TempArmor;
 import com.projectkorra.projectkorra.util.TempArmorStand;
 import com.projectkorra.projectkorra.util.TempBlock;
@@ -169,7 +169,7 @@ public class EarthGrab extends EarthAbility {
 
 		this.origin.setY(top.getY() + 1);
 
-		ParticleEffect.BLOCK_DUST.display(this.origin, 27, 0.2, 0.5, 0.2, this.origin.getBlock().getRelative(BlockFace.DOWN).getBlockData());
+		this.origin.getWorld().spawnParticle(Particle.BLOCK_DUST, this.origin, 27, 0.2, 0.5, 0.2, this.origin.getBlock().getRelative(BlockFace.DOWN).getBlockData());
 		playEarthbendingSound(this.origin);
 		for (final Entity entity : GeneralMethods.getEntitiesAroundPoint(this.origin, 1)) {
 			if (entity instanceof LivingEntity && entity.getEntityId() != this.player.getEntityId() && this.isEarthbendable(entity.getLocation().getBlock().getRelative(BlockFace.DOWN))) {
@@ -222,7 +222,7 @@ public class EarthGrab extends EarthAbility {
 			this.initiated = true;
 		}
 
-		ParticleEffect.BLOCK_DUST.display(this.target.getLocation(), 36, 0.3, 0.6, 0.3, this.target.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
+		this.target.getLocation().getWorld().spawnParticle(Particle.BLOCK_DUST, this.target.getLocation(), 36, 0.3, 0.6, 0.3, this.target.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
 
 		if (!ElementalAbility.isAir(this.trap.getLocation().clone().subtract(0, 0.1, 0).getBlock().getType())) {
 			this.trap.setGravity(false);
@@ -321,7 +321,8 @@ public class EarthGrab extends EarthAbility {
 			}
 			final Block b = entity.getLocation().getBlock().getRelative(BlockFace.DOWN);
 			GeneralMethods.setVelocity(this, entity, GeneralMethods.getDirection(entity.getLocation(), this.player.getLocation()).normalize().multiply(this.dragSpeed));
-			ParticleEffect.BLOCK_CRACK.display(entity.getLocation(), 2, 0, 0, 0, b.getBlockData());
+			Location loc = entity.getLocation();
+			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 2, 0, 0, 0, b.getBlockData());
 			playEarthbendingSound(entity.getLocation());
 		}
 	}
@@ -330,7 +331,8 @@ public class EarthGrab extends EarthAbility {
 		if (System.currentTimeMillis() >= this.lastHit + this.interval) {
 			this.trapHP -= 1;
 			this.lastHit = System.currentTimeMillis();
-			ParticleEffect.BLOCK_CRACK.display(this.target.getLocation().clone().add(0, 1, 0), 7, 0.06, 0.3, 0.06, this.target.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
+			Location loc = this.target.getLocation().clone().add(0, 1, 0);
+			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 7, 0.06, 0.3, 0.06, this.target.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
 			playEarthbendingSound(this.target.getLocation());
 		}
 	}
