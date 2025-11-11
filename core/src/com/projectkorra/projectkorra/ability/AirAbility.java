@@ -1,8 +1,11 @@
 package com.projectkorra.projectkorra.ability;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -121,10 +124,22 @@ public abstract class AirAbility extends ElementalAbility {
 	 */
 	public static void playAirbendingParticles(final Location loc, final int amount, final double xOffset, final double yOffset, final double zOffset) {
 		Particle particle = getAirbendingParticles();
-		if (particle == Particle.SPELL)
-			loc.getWorld().spawnParticle(getAirbendingParticles(), loc, amount, xOffset, yOffset, zOffset, 1);
-		else
-			loc.getWorld().spawnParticle(getAirbendingParticles(), loc, amount, xOffset, yOffset, zOffset);
+		Class<?> spellOptionsClazz = null;
+		if (particle == Particle.SPELL) {
+			for (Class<?> clazz : Particle.class.getDeclaredClasses()) {
+				if (clazz.getName().contains("Spell"))
+					spellOptionsClazz = clazz;
+			}
+		}
+		if (spellOptionsClazz != null) {
+			try {
+				Constructor<?> newSpellOptions = spellOptionsClazz.getDeclaredConstructor(Color.class, float.class);
+				Object spellOptions = newSpellOptions.newInstance(Color.WHITE, 0.5f);
+				loc.getWorld().spawnParticle(getAirbendingParticles(), loc, amount, xOffset, yOffset, zOffset, spellOptions);
+				return;
+			} catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException ignore) {}
+        }
+		loc.getWorld().spawnParticle(getAirbendingParticles(), loc, amount, xOffset, yOffset, zOffset);
 	}
 
 	/**
