@@ -437,7 +437,7 @@ public class OctopusForm extends WaterAbility {
 		} else if (this.isWaterbendable(this.player, block) || FireAbility.isFire(block.getType()) || isAir(block.getType())) {
 			if (isWater(block) && !TempBlock.isTempBlock(block)) {
 				Location loc = block.getLocation().clone().add(0.5, 0.5, 0.5);
-				loc.getWorld().spawnParticle(Particle.WATER_BUBBLE, loc, 5, Math.random(), Math.random(), Math.random(), 0);
+				loc.getWorld().spawnParticle(Particle.BUBBLE, loc, 5, Math.random(), Math.random(), Math.random(), 0);
 			}
 			this.newBlocks.add(new TempBlock(block, GeneralMethods.getWaterData(0), this));
 		}

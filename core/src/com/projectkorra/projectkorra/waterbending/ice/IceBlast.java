@@ -165,18 +165,18 @@ public class IceBlast extends IceAbility {
 		DamageHandler.damageEntity(entity, this.damage, this);
 		if (entity instanceof Player) {
 			if (this.bPlayer.canBeSlowed()) {
-				final PotionEffect effect = new PotionEffect(PotionEffectType.SLOW, 70, 2);
+				final PotionEffect effect = new PotionEffect(PotionEffectType.SLOWNESS, 70, 2);
 				new TempPotionEffect(entity, effect);
 				this.bPlayer.slow(this.slowCooldown);
 			}
 		} else {
-			final PotionEffect effect = new PotionEffect(PotionEffectType.SLOW, 70, 2);
+			final PotionEffect effect = new PotionEffect(PotionEffectType.SLOWNESS, 70, 2);
 			new TempPotionEffect(entity, effect);
 		}
 		AirAbility.breakBreathbendingHold(entity);
 
 		for (int x = 0; x < 30; x++) {
-			this.location.getWorld().spawnParticle(Particle.ITEM_CRACK, this.location, 5, Math.random() / 4, Math.random() / 4, Math.random() / 4, new ItemStack(Material.ICE));
+			this.location.getWorld().spawnParticle(Particle.ITEM, this.location, 5, Math.random() / 4, Math.random() / 4, Math.random() / 4, new ItemStack(Material.ICE));
 		}
 	}
 
@@ -315,8 +315,8 @@ public class IceBlast extends IceAbility {
 			}
 
 			for (int x = 0; x < 10; x++) {
-				this.location.getWorld().spawnParticle(Particle.ITEM_CRACK, this.location, 5, Math.random() / 2, Math.random() / 2, Math.random() / 2, new ItemStack(Material.ICE));
-				this.location.getWorld().spawnParticle(Particle.SNOW_SHOVEL, this.location, 5, Math.random() / 2, Math.random() / 2, Math.random() / 2, 0);
+				this.location.getWorld().spawnParticle(Particle.ITEM, this.location, 5, Math.random() / 2, Math.random() / 2, Math.random() / 2, new ItemStack(Material.ICE));
+				this.location.getWorld().spawnParticle(Particle.POOF, this.location, 5, Math.random() / 2, Math.random() / 2, Math.random() / 2, 0);
 			}
 			if ((new Random()).nextInt(4) == 0) {
 				playIcebendingSound(this.location);
@@ -329,8 +329,8 @@ public class IceBlast extends IceAbility {
 
 	public void breakParticles(final int amount) {
 		for (int x = 0; x < amount; x++) {
-			this.location.getWorld().spawnParticle(Particle.ITEM_CRACK, this.location, 2, Math.random(), Math.random(), Math.random(), new ItemStack(Material.ICE));
-			this.location.getWorld().spawnParticle(Particle.SNOW_SHOVEL, this.location, 2, Math.random(), Math.random(), Math.random(), 0);
+			this.location.getWorld().spawnParticle(Particle.ITEM, this.location, 2, Math.random(), Math.random(), Math.random(), new ItemStack(Material.ICE));
+			this.location.getWorld().spawnParticle(Particle.POOF, this.location, 2, Math.random(), Math.random(), Math.random(), 0);
 		}
 		this.location.getWorld().playSound(this.location, Sound.BLOCK_GLASS_BREAK, 5, 1.3f);
 	}

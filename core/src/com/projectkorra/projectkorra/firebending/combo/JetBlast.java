@@ -53,7 +53,7 @@ public class JetBlast extends FireAbility implements ComboAbility {
 
 	private void playExplosion() {
 		final float spread = 0F;
-		this.player.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_LARGE, this.player.getLocation(), 1, spread, spread, spread, 0);
+		this.player.getLocation().getWorld().spawnParticle(Particle.EXPLOSION, this.player.getLocation(), 1, spread, spread, spread, 0);
 		this.player.getWorld().playSound(this.player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 15, 0F);
 	}
 

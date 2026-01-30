@@ -187,7 +187,7 @@ public class EarthArmor extends EarthAbility {
 			GeneralMethods.breakBlock(newHeadBlock);
 		} else if (!this.isEarthbendable(newHeadBlock) && !newHeadBlock.isLiquid() && !ElementalAbility.isAir(newHeadBlock.getType())) {
 			Location head = newHeadBlock.getLocation();
-			head.getWorld().spawnParticle(Particle.BLOCK_CRACK, head, 8, 0.5, 0.5, 0.5, newHeadBlock.getBlockData());
+			head.getWorld().spawnParticle(Particle.BLOCK, head, 8, 0.5, 0.5, 0.5, newHeadBlock.getBlockData());
 			this.remove();
 			return false;
 		}
@@ -197,7 +197,7 @@ public class EarthArmor extends EarthAbility {
 		} else if (!this.isEarthbendable(newLegsBlock) && !newLegsBlock.isLiquid() && !ElementalAbility.isAir(newLegsBlock.getType())) {
 			newLegsBlock.getLocation().getWorld().playSound(newLegsBlock.getLocation(), Sound.BLOCK_GRASS_BREAK, 1, 1);
 			Location head = newHeadBlock.getLocation();
-			head.getWorld().spawnParticle(Particle.BLOCK_CRACK, head, 8, 0.5, 0.5, 0.5, newLegsBlock.getBlockData());
+			head.getWorld().spawnParticle(Particle.BLOCK, head, 8, 0.5, 0.5, 0.5, newLegsBlock.getBlockData());
 			this.remove();
 			return false;
 		}
@@ -239,8 +239,8 @@ public class EarthArmor extends EarthAbility {
 
 			Location loc = this.player.getLocation(),
 					 eye = this.player.getEyeLocation();
-			eye.getWorld().spawnParticle(Particle.BLOCK_CRACK, eye, 8, 0.1, 0.1, 0.1, this.headMaterial.createBlockData());
-			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 8, 0.1F, 0.1F, 0.1F, this.legsMaterial.createBlockData());
+			eye.getWorld().spawnParticle(Particle.BLOCK, eye, 8, 0.1, 0.1, 0.1, this.headMaterial.createBlockData());
+			loc.getWorld().spawnParticle(Particle.BLOCK, loc, 8, 0.1F, 0.1F, 0.1F, this.legsMaterial.createBlockData());
 
 			this.bPlayer.addCooldown(this);
 			this.remove();
@@ -312,8 +312,8 @@ public class EarthArmor extends EarthAbility {
 
 					Location loc = abil.player.getLocation(),
 							 eye = abil.player.getEyeLocation();
-					eye.getWorld().spawnParticle(Particle.BLOCK_CRACK, eye, 8, 0.1, 0.1, 0.1, abil.headMaterial.createBlockData());
-					loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 8, 0.1F, 0.1F, 0.1F, abil.legsMaterial.createBlockData());
+					eye.getWorld().spawnParticle(Particle.BLOCK, eye, 8, 0.1, 0.1, 0.1, abil.headMaterial.createBlockData());
+					loc.getWorld().spawnParticle(Particle.BLOCK, loc, 8, 0.1F, 0.1F, 0.1F, abil.legsMaterial.createBlockData());
 
 					abil.remove();
 				}
@@ -593,8 +593,8 @@ public class EarthArmor extends EarthAbility {
 
 		Location loc = this.player.getLocation(),
 				 eye = this.player.getEyeLocation();
-		eye.getWorld().spawnParticle(Particle.BLOCK_CRACK, eye, 8, 0.1, 0.1, 0.1, this.headMaterial.createBlockData());
-		loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 8, 0.1F, 0.1F, 0.1F, this.legsMaterial.createBlockData());
+		eye.getWorld().spawnParticle(Particle.BLOCK, eye, 8, 0.1, 0.1, 0.1, this.headMaterial.createBlockData());
+		loc.getWorld().spawnParticle(Particle.BLOCK, loc, 8, 0.1F, 0.1F, 0.1F, this.legsMaterial.createBlockData());
 
 		this.bPlayer.addCooldown(this);
 		this.remove();

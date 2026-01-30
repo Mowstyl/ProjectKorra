@@ -169,7 +169,7 @@ public class WaterArms extends WaterAbility {
 			}
 
 			Location loc = sourceBlock.getLocation().clone().add(0.5, 0.5, 0.5);
-			loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 4, 0, 0, 0);
+			loc.getWorld().spawnParticle(Particle.LARGE_SMOKE, loc, 4, 0, 0, 0);
 			return true;
 		} else if (WaterReturn.hasWaterBottle(this.player)) {
 			WaterReturn.emptyWaterBottle(this.player);

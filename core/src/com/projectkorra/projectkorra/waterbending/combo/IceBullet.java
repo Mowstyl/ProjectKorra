@@ -284,7 +284,7 @@ public class IceBullet extends IceAbility implements ComboAbility {
 						fs.setDensity(10);
 						fs.setSpread(0.1F);
 						fs.setUseNewParticles(true);
-						fs.setParticleEffect(Particle.SNOW_SHOVEL);
+						fs.setParticleEffect(Particle.POOF);
 						fs.setCollides(false);
 						fs.runTaskTimer(ProjectKorra.plugin, (0), 1L);
 						this.tasks.add(fs);

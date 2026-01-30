@@ -80,7 +80,7 @@ public abstract class WaterAbility extends ElementalAbility {
 		super.handleCollision(collision);
 		if (collision.isRemovingFirst()) {
 			Location loc = collision.getLocationFirst();
-			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 10, 1, 1, 1, 0.1, collision.getLocationFirst().getBlock().getBlockData());
+			loc.getWorld().spawnParticle(Particle.BLOCK, loc, 10, 1, 1, 1, 0.1, collision.getLocationFirst().getBlock().getBlockData());
 		}
 	}
 
@@ -310,7 +310,7 @@ public abstract class WaterAbility extends ElementalAbility {
 
 	public static boolean isWaterbendable(final Player player, final String abilityName, final Block block) {
 		final BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
-		if (bPlayer == null || !isWaterbendable(block.getType())) {
+		if (bPlayer == null || block == null || !isWaterbendable(block.getType())) {
 			return false;
 		}
 		if (TempBlock.isTempBlock(block) && !isBendableWaterTempBlock(block)) {
@@ -370,7 +370,7 @@ public abstract class WaterAbility extends ElementalAbility {
 
 	public static void playFocusWaterEffect(final Block block) {
 		Location loc = block.getLocation().add(0.5, 0.5, 0.5);
-		loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 4);
+		loc.getWorld().spawnParticle(Particle.SMOKE, loc, 4);
 	}
 
 	public static void playIcebendingSound(final Location loc) {

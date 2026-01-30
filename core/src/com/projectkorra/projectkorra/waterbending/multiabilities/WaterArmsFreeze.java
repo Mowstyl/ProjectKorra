@@ -130,7 +130,7 @@ public class WaterArmsFreeze extends IceAbility {
 	}
 
 	private void progressIce() {
-		this.location.getWorld().spawnParticle(Particle.SNOW_SHOVEL, this.location, 5, Math.random(), Math.random(), Math.random(), 0.05);
+		this.location.getWorld().spawnParticle(Particle.POOF, this.location, 5, Math.random(), Math.random(), Math.random(), 0.05);
 		new TempBlock(this.location.getBlock(), Material.ICE.createBlockData(), this).setCanSuffocate(false).setRevertTime(10);
 
 		for (final Entity entity : GeneralMethods.getEntitiesAroundPoint(this.location, 2.5)) {
@@ -139,7 +139,7 @@ public class WaterArmsFreeze extends IceAbility {
 					continue;
 				}
 				DamageHandler.damageEntity(entity, this.iceDamage, this);
-				final PotionEffect effect = new PotionEffect(PotionEffectType.SLOW, 40, 2);
+				final PotionEffect effect = new PotionEffect(PotionEffectType.SLOWNESS, 40, 2);
 				new TempPotionEffect((LivingEntity) entity, effect);
 				this.remove();
 				return;

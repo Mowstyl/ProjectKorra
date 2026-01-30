@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projectkorra.projectkorra.util.ParticleEffect;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -46,7 +47,7 @@ public abstract class AirAbility extends ElementalAbility {
 		super.handleCollision(collision);
 		if (collision.isRemovingFirst()) {
 			Location loc = collision.getLocationFirst();
-			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 10, 1, 1, 1, 0.1, Material.WHITE_WOOL.createBlockData());
+			loc.getWorld().spawnParticle(Particle.BLOCK, loc, 10, 1, 1, 1, 0.1, Material.WHITE_WOOL.createBlockData());
 		}
 	}
 
@@ -75,14 +76,32 @@ public abstract class AirAbility extends ElementalAbility {
 	 *
 	 * @return Config specified ParticleEffect
 	 */
-	public static Particle getAirbendingParticles() {
+	@Deprecated(forRemoval = true)
+	@SuppressWarnings("removal")
+	public static ParticleEffect getAirbendingParticles() {
+		final String particle = getConfig().getString("Properties.Air.Particles").toUpperCase();
+
+		try {
+			return ParticleEffect.valueOf(particle);
+		} catch (IllegalArgumentException e) {
+			ProjectKorra.log.warning("Your current value for 'Properties.Air.Particles' is not valid. Returning to the default SPELL particle.");
+			return ParticleEffect.SPELL;
+		}
+	}
+
+	/**
+	 * Gets the Air Particles from the config.
+	 *
+	 * @return Config specified ParticleEffect
+	 */
+	public static Particle getAirbendingParticle() {
 		final String particle = getConfig().getString("Properties.Air.Particles").toUpperCase();
 
 		try {
 			return Particle.valueOf(particle);
 		} catch (IllegalArgumentException e) {
 			ProjectKorra.log.warning("Your current value for 'Properties.Air.Particles' is not valid. Returning to the default SPELL particle.");
-			return Particle.SPELL;
+			return Particle.EFFECT;
 		}
 	}
 
@@ -123,9 +142,9 @@ public abstract class AirAbility extends ElementalAbility {
 	 * @param zOffset The zOffset to use
 	 */
 	public static void playAirbendingParticles(final Location loc, final int amount, final double xOffset, final double yOffset, final double zOffset) {
-		Particle particle = getAirbendingParticles();
+		Particle particle = getAirbendingParticle();
 		Class<?> spellOptionsClazz = null;
-		if (particle == Particle.SPELL) {
+		if (particle == Particle.EFFECT) {
 			for (Class<?> clazz : Particle.class.getDeclaredClasses()) {
 				if (clazz.getName().contains("Spell"))
 					spellOptionsClazz = clazz;
@@ -135,11 +154,11 @@ public abstract class AirAbility extends ElementalAbility {
 			try {
 				Constructor<?> newSpellOptions = spellOptionsClazz.getDeclaredConstructor(Color.class, float.class);
 				Object spellOptions = newSpellOptions.newInstance(Color.WHITE, 0.5f);
-				loc.getWorld().spawnParticle(getAirbendingParticles(), loc, amount, xOffset, yOffset, zOffset, spellOptions);
+				loc.getWorld().spawnParticle(particle, loc, amount, xOffset, yOffset, zOffset, spellOptions);
 				return;
 			} catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException ignore) {}
         }
-		loc.getWorld().spawnParticle(getAirbendingParticles(), loc, amount, xOffset, yOffset, zOffset);
+		loc.getWorld().spawnParticle(particle, loc, amount, xOffset, yOffset, zOffset);
 	}
 
 	/**

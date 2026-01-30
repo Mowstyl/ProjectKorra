@@ -107,7 +107,7 @@ public class Lightning extends LightningAbility {
 	private ArrayList<Location> locations;
 	private Block[] chargedCopperBlocks;
 	private static final Set<EntityType> LIGHTNING_AFFECTED = Sets.newHashSet(EntityType.CREEPER, EntityType.VILLAGER,
-			EntityType.PIG, EntityType.MUSHROOM_COW, EntityType.TURTLE, EntityType.SKELETON_HORSE
+			EntityType.PIG, EntityType.MOOSHROOM, EntityType.TURTLE, EntityType.SKELETON_HORSE
 	);
 
 	public Lightning(final Player player) {
@@ -227,7 +227,7 @@ public class Lightning extends LightningAbility {
 					entity.getWorld().spawnEntity(entity.getLocation(), EntityType.ZOMBIFIED_PIGLIN);
 					entity.remove();
 					break;
-				case MUSHROOM_COW:
+				case MOOSHROOM:
 					MushroomCow cow = (MushroomCow) entity;
 					cow.setVariant(cow.getVariant() == MushroomCow.Variant.RED ? MushroomCow.Variant.BROWN : MushroomCow.Variant.RED);
 					break;

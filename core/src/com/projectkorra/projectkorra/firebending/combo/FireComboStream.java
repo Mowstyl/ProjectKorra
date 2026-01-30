@@ -15,10 +15,7 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.LightManager;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -27,6 +24,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ThreadLocalRandom;
 
 /***
@@ -95,7 +94,29 @@ public class FireComboStream extends BukkitRunnable {
 
 		for (int i = 0; i < this.density; i++) {
 			if (this.useNewParticles) {
-				this.location.getWorld().spawnParticle(this.particleEffect, this.location, 1, this.spread, this.spread, this.spread);
+				if (this.particleEffect == Particle.EFFECT) {
+					Class<?> spellOptionsClazz = null;
+					if (this.particleEffect == Particle.EFFECT) {
+						for (Class<?> clazz : Particle.class.getDeclaredClasses()) {
+							if (clazz.getName().contains("Spell"))
+								spellOptionsClazz = clazz;
+						}
+					}
+					if (spellOptionsClazz != null) {
+						try {
+							Constructor<?> newSpellOptions = spellOptionsClazz.getDeclaredConstructor(Color.class, float.class);
+							Object spellOptions = newSpellOptions.newInstance(Color.WHITE, 0.5f);
+							this.location.getWorld().spawnParticle(this.particleEffect, this.location, 1, this.spread, this.spread, this.spread, spellOptions);
+							return;
+						} catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException ignore) {}
+					}
+					else {
+						this.location.getWorld().spawnParticle(this.particleEffect, this.location, 1, this.spread, this.spread, this.spread);
+					}
+				}
+				else {
+					this.location.getWorld().spawnParticle(this.particleEffect, this.location, 1, this.spread, this.spread, this.spread, 0D);
+				}
 			} else {
 				this.location.getWorld().playEffect(this.location, Effect.MOBSPAWNER_FLAMES, 0, 15);
 			}

@@ -1,5 +1,6 @@
 package com.projectkorra.projectkorra.firebending.passive;
 
+import com.projectkorra.projectkorra.ProjectKorra;
 import org.bukkit.entity.Player;
 
 import com.projectkorra.projectkorra.BendingPlayer;
@@ -20,6 +21,7 @@ public class FirePassive {
 			if (!CoreAbility.hasAbility(player, Illumination.class) && (!CoreAbility.hasAbility(player, Tremorsense.class)
 					|| (CoreAbility.getAbility(player, Tremorsense.class) != null && !CoreAbility.getAbility(player, Tremorsense.class).isGlowing()))
 					&& bPlayer.canBendIgnoreBinds(CoreAbility.getAbility("Illumination")) && ConfigManager.defaultConfig.get().getBoolean("Abilities.Fire.Illumination.Passive")) {
+				ProjectKorra.plugin.getLogger().info("AAAAA: " + ConfigManager.defaultConfig.get().getBoolean("Abilities.Fire.Illumination.Passive"));
 				if (bPlayer.isIlluminating()) {
 					new Illumination(player);
 				}

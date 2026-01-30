@@ -277,7 +277,7 @@ public class SurgeWave extends WaterAbility {
 				return;
 			} else if (!this.progressing) {
 				Location loc = this.sourceBlock.getLocation().clone().add(.5, .5, .5);
-				loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 4);
+				loc.getWorld().spawnParticle(Particle.SMOKE, loc, 4);
 				return;
 			}
 
@@ -305,7 +305,7 @@ public class SurgeWave extends WaterAbility {
 								if (isWater(block)) {
 									if (ThreadLocalRandom.current().nextInt(8) == 0) {
 										Location loc = block.getLocation().clone().add(.5, .5, .5);
-										loc.getWorld().spawnParticle(Particle.WATER_BUBBLE, loc, 1, ThreadLocalRandom.current().nextDouble(0, 0.5), ThreadLocalRandom.current().nextDouble(0, 0.5), ThreadLocalRandom.current().nextDouble(0, 0.5), 0);
+										loc.getWorld().spawnParticle(Particle.BUBBLE, loc, 1, ThreadLocalRandom.current().nextDouble(0, 0.5), ThreadLocalRandom.current().nextDouble(0, 0.5), ThreadLocalRandom.current().nextDouble(0, 0.5), 0);
 									}
 								}
 								blocks.add(block);

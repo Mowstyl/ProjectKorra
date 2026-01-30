@@ -86,7 +86,7 @@ public class EarthDomeOthers extends EarthAbility implements ComboAbility {
 		this.loc.setY(top.getY() + 1);
 
 		this.loc.getWorld().spawnParticle(Particle.CRIT, this.loc, 9, 0.4, 0, 0.4, 0.001);
-		this.loc.getWorld().spawnParticle(Particle.BLOCK_DUST, this.loc, 7, 0.2, 0.1, 0.2, 0.001, this.loc.getBlock().getRelative(BlockFace.DOWN).getBlockData());
+		this.loc.getWorld().spawnParticle(Particle.BLOCK, this.loc, 7, 0.2, 0.1, 0.2, 0.001, this.loc.getBlock().getRelative(BlockFace.DOWN).getBlockData());
 
 		for (final Entity entity : GeneralMethods.getEntitiesAroundPoint(this.loc, 2)) {
 			if (!(entity instanceof LivingEntity) || entity.getEntityId() == this.player.getEntityId()) {

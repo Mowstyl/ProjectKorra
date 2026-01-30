@@ -58,7 +58,7 @@ public abstract class FireAbility extends ElementalAbility {
 		super.handleCollision(collision);
 		if (collision.isRemovingFirst()) {
 			Location loc = collision.getLocationFirst();
-			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 10, 1, 1, 1, 0.1, getFireType().createBlockData());
+			loc.getWorld().spawnParticle(Particle.BLOCK, loc, 10, 1, 1, 1, 0.1, getFireType().createBlockData());
 		}
 	}
 	/**
@@ -176,7 +176,7 @@ public abstract class FireAbility extends ElementalAbility {
 				block.getWorld().playSound(block.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.5F, 1);
 			}
 		} else if (isSnow(block)) {
-			block.getWorld().spawnParticle(Particle.BLOCK_DUST, block.getLocation().add(0.5, 0.5, 0.5), 2, 0.5, 0.5, 0.5, 0.1, Material.SNOW_BLOCK.createBlockData());
+			block.getWorld().spawnParticle(Particle.BLOCK, block.getLocation().add(0.5, 0.5, 0.5), 2, 0.5, 0.5, 0.5, 0.1, Material.SNOW_BLOCK.createBlockData());
 			block.setType(Material.AIR);
 
 			if (playSound) {
@@ -255,9 +255,9 @@ public abstract class FireAbility extends ElementalAbility {
 
 	public void playFirebendingParticles(final Location loc, final int amount, final double xOffset, final double yOffset, final double zOffset) {
 		if (this.getBendingPlayer().canUseSubElement(SubElement.BLUE_FIRE)) {
-			loc.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, loc, amount, xOffset, yOffset, zOffset);
+			loc.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, loc, amount, xOffset, yOffset, zOffset, 0D);
 		} else {
-			loc.getWorld().spawnParticle(Particle.FLAME, loc, amount, xOffset, yOffset, zOffset);
+			loc.getWorld().spawnParticle(Particle.FLAME, loc, amount, xOffset, yOffset, zOffset, 0D);
 		}
 	}
 

@@ -193,7 +193,7 @@ public class FireBlastCharged extends FireAbility {
 					}
 				}
 				this.location.getWorld().playSound(this.location, Sound.ENTITY_GENERIC_EXPLODE, 5, 1);
-				this.location.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, this.location, 1, 0, 0, 0);
+				this.location.getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, this.location, 1, 0, 0, 0);
 			}
 		}
 

@@ -91,7 +91,7 @@ public abstract class EarthAbility extends ElementalAbility {
 		super.handleCollision(collision);
 		if (collision.isRemovingFirst()) {
 			Location loc = collision.getLocationFirst();
-			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 10, 1, 1, 1, 0.1, Material.DIRT.createBlockData());
+			loc.getWorld().spawnParticle(Particle.BLOCK, loc, 10, 1, 1, 1, 0.1, Material.DIRT.createBlockData());
 		}
 	}
 	
@@ -301,8 +301,8 @@ public abstract class EarthAbility extends ElementalAbility {
 		final Material sand = red ? Material.RED_SAND : Material.SAND;
 		final Material stone = red ? Material.RED_SANDSTONE : Material.SANDSTONE;
 
-		loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, amount, xOffset, yOffset, zOffset, speed, sand.createBlockData());
-		loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, amount, xOffset, yOffset, zOffset, speed, stone.createBlockData());
+		loc.getWorld().spawnParticle(Particle.BLOCK, loc, amount, xOffset, yOffset, zOffset, speed, sand.createBlockData());
+		loc.getWorld().spawnParticle(Particle.BLOCK, loc, amount, xOffset, yOffset, zOffset, speed, stone.createBlockData());
 	}
 
 	/**

@@ -81,7 +81,7 @@ public class EarthPillars extends EarthAbility implements ComboAbility {
 		if (this.firstTime) {
 			for (final Entity e : GeneralMethods.getEntitiesAroundPoint(this.player.getLocation(), this.radius)) {
 				if (e instanceof LivingEntity && e.getEntityId() != this.player.getEntityId() && isEarthbendable(e.getLocation().getBlock().getRelative(BlockFace.DOWN).getType(), true, true, false)) {
-					e.getLocation().getWorld().spawnParticle(Particle.BLOCK_DUST, e.getLocation(), 10, 1, 0.1, 1, e.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
+					e.getLocation().getWorld().spawnParticle(Particle.BLOCK, e.getLocation(), 10, 1, 0.1, 1, e.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
 					this.affect((LivingEntity) e);
 				}
 			}

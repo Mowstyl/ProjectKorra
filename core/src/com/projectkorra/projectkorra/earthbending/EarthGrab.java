@@ -169,7 +169,7 @@ public class EarthGrab extends EarthAbility {
 
 		this.origin.setY(top.getY() + 1);
 
-		this.origin.getWorld().spawnParticle(Particle.BLOCK_DUST, this.origin, 27, 0.2, 0.5, 0.2, this.origin.getBlock().getRelative(BlockFace.DOWN).getBlockData());
+		this.origin.getWorld().spawnParticle(Particle.BLOCK, this.origin, 27, 0.2, 0.5, 0.2, this.origin.getBlock().getRelative(BlockFace.DOWN).getBlockData());
 		playEarthbendingSound(this.origin);
 		for (final Entity entity : GeneralMethods.getEntitiesAroundPoint(this.origin, 1)) {
 			if (entity instanceof LivingEntity && entity.getEntityId() != this.player.getEntityId() && this.isEarthbendable(entity.getLocation().getBlock().getRelative(BlockFace.DOWN))) {
@@ -222,7 +222,7 @@ public class EarthGrab extends EarthAbility {
 			this.initiated = true;
 		}
 
-		this.target.getLocation().getWorld().spawnParticle(Particle.BLOCK_DUST, this.target.getLocation(), 36, 0.3, 0.6, 0.3, this.target.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
+		this.target.getLocation().getWorld().spawnParticle(Particle.BLOCK, this.target.getLocation(), 36, 0.3, 0.6, 0.3, this.target.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
 
 		if (!ElementalAbility.isAir(this.trap.getLocation().clone().subtract(0, 0.1, 0).getBlock().getType())) {
 			this.trap.setGravity(false);
@@ -322,7 +322,7 @@ public class EarthGrab extends EarthAbility {
 			final Block b = entity.getLocation().getBlock().getRelative(BlockFace.DOWN);
 			GeneralMethods.setVelocity(this, entity, GeneralMethods.getDirection(entity.getLocation(), this.player.getLocation()).normalize().multiply(this.dragSpeed));
 			Location loc = entity.getLocation();
-			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 2, 0, 0, 0, b.getBlockData());
+			loc.getWorld().spawnParticle(Particle.BLOCK, loc, 2, 0, 0, 0, b.getBlockData());
 			playEarthbendingSound(entity.getLocation());
 		}
 	}
@@ -332,7 +332,7 @@ public class EarthGrab extends EarthAbility {
 			this.trapHP -= 1;
 			this.lastHit = System.currentTimeMillis();
 			Location loc = this.target.getLocation().clone().add(0, 1, 0);
-			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 7, 0.06, 0.3, 0.06, this.target.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
+			loc.getWorld().spawnParticle(Particle.BLOCK, loc, 7, 0.06, 0.3, 0.06, this.target.getLocation().getBlock().getRelative(BlockFace.DOWN).getBlockData());
 			playEarthbendingSound(this.target.getLocation());
 		}
 	}

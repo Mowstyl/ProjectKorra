@@ -205,7 +205,7 @@ public class BendingPlayer extends OfflineBendingPlayer {
 		return !RegionProtection.isRegionProtected(this.player, player.getLocation(), ability);
     }
 
-	public boolean canBendIgnoreBinds(final CoreAbility ability) {
+	public boolean canBendIgnoreBinds(@NotNull final CoreAbility ability) {
 		return this.canBend(ability, true, false);
 	}
 
@@ -245,9 +245,9 @@ public class BendingPlayer extends OfflineBendingPlayer {
 			return false;
 		} else if (this.isChiBlocked() || this.isParalyzed() || this.isBloodbent()) {
 			return false;
-		} else if (!this.isOnCooldown(ability)) {
+		} else if (this.isOnCooldown(ability)) {
 			return false;
-		} else return RegionProtection.isRegionProtected(this.player, this.player.getLocation(), ability);
+		} else return !RegionProtection.isRegionProtected(this.player, this.player.getLocation(), ability);
 	}
 
 	public boolean canCurrentlyBendWithWeapons() {
@@ -281,12 +281,23 @@ public class BendingPlayer extends OfflineBendingPlayer {
 	 * @return True if they can bind it
 	 */
 	public boolean canBind(final CoreAbility ability) {
-		//Loop through all hooks and test them
+		return canBind(ability, false);
+	}
+
+	/**
+	 * Check if the {@link BendingPlayer} can bind the provided {@link CoreAbility}
+	 * @param ability The {@link CoreAbility} to check
+	 * @return True if they can bind it
+	 */
+	public boolean canBind(final CoreAbility ability, boolean verbose) {
+		// Loop through all hooks and test them
 		for (JavaPlugin plugin : BIND_HOOKS.keySet()) {
 			CanBindHook hook = BIND_HOOKS.get(plugin);
 			try {
 				Optional<Boolean> result = hook.canBind(this, ability);
-				if (result.isPresent()) return result.get(); //If the hook didn't return
+				if (result.isPresent()) {
+					return result.get(); //If the hook didn't return
+				}
 			} catch (Exception e) {
 				ProjectKorra.log.severe("An error occurred while running CanBindHook registered by " + plugin.getName() + ".");
 				e.printStackTrace();
@@ -296,18 +307,26 @@ public class BendingPlayer extends OfflineBendingPlayer {
 		if (ability == null || !this.player.isOnline() || !ability.isEnabled()) {
 			return false;
 		} else if (!this.player.hasPermission("bending.ability." + ability.getName())) {
+			if (verbose) {
+				ChatUtil.sendBrandingMessage(Bukkit.getConsoleSender(), org.bukkit.ChatColor.RED + "Player: " + this.player);
+				ChatUtil.sendBrandingMessage(Bukkit.getConsoleSender(), org.bukkit.ChatColor.RED + "Valid: " + this.player.isValid());
+				ChatUtil.sendBrandingMessage(Bukkit.getConsoleSender(), org.bukkit.ChatColor.RED + "Online: " + this.player.isOnline());
+			}
 			return false;
 		} else if (!this.hasElement(ability.getElement()) && !(ability instanceof AvatarAbility avatarAbility && !avatarAbility.requireAvatar())) {
 			return false;
 		} else if (ability.getElement() instanceof SubElement subElement) {
-            if (subElement instanceof MultiSubElement multiSubElement) {
+			if (subElement instanceof MultiSubElement multiSubElement) {
 				for (Element parent : multiSubElement.getParentElements()) {
-					if (!this.hasElement(parent)) return false;
+					if (!this.hasElement(parent)) {
+						return false;
+					}
 				}
 			} else if (!this.hasElement(subElement.getParentElement())) {
 				return false;
 			}
-			return this.hasSubElement(subElement);
+
+            return this.hasSubElement(subElement);
 		}
 		return true;
 	}

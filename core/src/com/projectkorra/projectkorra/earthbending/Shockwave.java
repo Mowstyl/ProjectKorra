@@ -77,7 +77,7 @@ public class Shockwave extends EarthAbility {
 			}
 		} else if (this.charged) {
 			final Location location = this.player.getEyeLocation().add(this.player.getEyeLocation().getDirection());
-			location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 1);
+			location.getWorld().spawnParticle(Particle.SMOKE, location, 1);
 		}
 	}
 

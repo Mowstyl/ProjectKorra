@@ -234,7 +234,7 @@ public class WaterManipulation extends WaterAbility {
 						return;
 					}
 					Location loc = this.sourceBlock.getLocation().clone().add(.5, .5, .5);
-					loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 4, 0, 0, 0);
+					loc.getWorld().spawnParticle(Particle.SMOKE, loc, 4, 0, 0, 0);
 					return;
 				}
 
@@ -392,7 +392,7 @@ public class WaterManipulation extends WaterAbility {
 		} else {
 			if (isWater(block) && !AFFECTED_BLOCKS.containsKey(block)) {
 				Location loc = block.getLocation().clone().add(.5, .5, .5);
-				loc.getWorld().spawnParticle(Particle.WATER_BUBBLE, loc, 5, Math.random(), Math.random(), Math.random(), 0);
+				loc.getWorld().spawnParticle(Particle.BUBBLE, loc, 5, Math.random(), Math.random(), Math.random(), 0);
 			}
 		}
 

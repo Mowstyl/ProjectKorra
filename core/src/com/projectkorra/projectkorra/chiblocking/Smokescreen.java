@@ -55,7 +55,7 @@ public class Smokescreen extends ChiAbility {
 		for (int i = 0; i < 125; i++) {
 			final Location newLoc = new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y, loc.getZ() + z);
 			for (int direction = 0; direction < 8; direction++) {
-				newLoc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, newLoc, 4, 0.5, 0.5, 0.5);
+				newLoc.getWorld().spawnParticle(Particle.SMOKE, newLoc, 4, 0.5, 0.5, 0.5);
 			}
 			if (z == 2) {
 				z = -2;
@@ -70,7 +70,7 @@ public class Smokescreen extends ChiAbility {
 
 	public void applyBlindness(final Entity entity) {
 		if (entity instanceof Player) {
-			if (Commands.invincible.contains(((Player) entity).getName())) {
+			if (Commands.invincible.contains(entity.getName())) {
 				return;
 			} else if (GeneralMethods.isRegionProtectedFromBuild(this, entity.getLocation())) {
 				return;

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.projectkorra.projectkorra.util.ChatUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -101,6 +102,7 @@ public class BindCommand extends PKCommand {
 					ChatUtil.sendBrandingMessage(sender, ChatColor.RED + ("AEIOUaeiou".indexOf(coreAbil.getElement().getName().charAt(0)) > -1 ? this.noElementAE : this.noElement).replace("{element}", coreAbil.getElement().getName() + coreAbil.getElement().getType().getBender()));
 				}
 			} else {
+				ChatUtil.sendBrandingMessage(Bukkit.getConsoleSender(), ChatColor.RED + "bPlayer can bind: " + bPlayer.canBind(coreAbil, true));
 				ChatUtil.sendBrandingMessage(sender, ChatColor.RED + super.noPermissionMessage);
 			}
 			return;

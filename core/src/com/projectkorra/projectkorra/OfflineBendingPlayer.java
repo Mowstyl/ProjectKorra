@@ -72,7 +72,7 @@ public class OfflineBendingPlayer {
      */
     private static final Map<UUID, CompletableFuture<OfflineBendingPlayer>> LOADING = new ConcurrentHashMap<>();
 
-    protected final OfflinePlayer player;
+    protected OfflinePlayer player;
     protected final UUID uuid;
     protected boolean permaRemoved;
     protected boolean toggled;
@@ -141,6 +141,7 @@ public class OfflineBendingPlayer {
         //If we already have the players data cached from an OfflineBendingPlayer instance
         if (PLAYERS.get(uuid) != null) {
             OfflineBendingPlayer oBendingPlayer = PLAYERS.get(uuid); //Get cached instance
+            oBendingPlayer.player = offlinePlayer;
             if (offlinePlayer.isOnline() && !(oBendingPlayer instanceof BendingPlayer)) {
                 BendingPlayer bendingPlayer = convertToOnline(oBendingPlayer);
                 oBendingPlayer = bendingPlayer;

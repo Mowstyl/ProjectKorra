@@ -295,7 +295,7 @@ public class HeatControl extends FireAbility {
 		playFirebendingParticles(this.player.getLocation().clone().add(0, 1, 0), 3, 0.5, 0.5, 0.5);
 		emitFirebendingLight(this.player.getLocation().clone().add(0, 1, 0));
 		Location loc = this.player.getLocation().clone().add(0, 1, 0);
-		loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 2, 0.5, 0.5, 0.5);
+		loc.getWorld().spawnParticle(Particle.SMOKE, loc, 2, 0.5, 0.5, 0.5);
 	}
 
 	public static boolean isCookable(final Material material) {
@@ -401,7 +401,7 @@ public class HeatControl extends FireAbility {
 							tempBlock.getBlock().getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 0.5F, 1);
 						}
 						loc.add(0.5, 1, 0.5);
-						loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 3, 0.1, 0.1, 0.1, 0.01);
+						loc.getWorld().spawnParticle(Particle.SMOKE, loc, 3, 0.1, 0.1, 0.1, 0.01);
 
 						LavaFlow.removeBlock(tempBlock.getBlock());
 					}
@@ -437,7 +437,7 @@ public class HeatControl extends FireAbility {
 						tempBlock.getBlock().getWorld().playSound(tempBlock.getBlock().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.5F, 1);
 					}
 					loc.add(0.5, 1, 0.5);
-					loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 3, 0.1, 0.1, 0.1, 0.01);
+					loc.getWorld().spawnParticle(Particle.SMOKE, loc, 3, 0.1, 0.1, 0.1, 0.01);
 				}
 			}
 		}.runTaskLater(ProjectKorra.plugin, 20);

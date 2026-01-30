@@ -78,7 +78,7 @@ public class Combustion extends CombustionAbility {
 		final Combustion combustion = getAbility(player, Combustion.class);
 		if (combustion != null) {
 			combustion.createExplosion(combustion.location, combustion.explosivePower, combustion.breakBlocks);
-			combustion.location.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, combustion.location, 3, Math.random(), Math.random(), Math.random(), 0);
+			combustion.location.getWorld().spawnParticle(Particle.EXPLOSION, combustion.location, 3, Math.random(), Math.random(), Math.random(), 0);
 		}
 	}
 
@@ -101,9 +101,9 @@ public class Combustion extends CombustionAbility {
 	}
 
 	private void advanceLocation() {
-		this.location.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, this.location, 2, .001, .001, .001, 0);
+		this.location.getWorld().spawnParticle(Particle.FIREWORK, this.location, 2, .001, .001, .001, 0);
 		if(explosionCount % 5 == 0)
-			this.location.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, this.location, 1, .001, .001, .001, 0);
+			this.location.getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, this.location, 1, .001, .001, .001, 0);
 		playCombustionSound(this.location);
 		emitFirebendingLight(this.location);
 		this.location = this.location.add(this.direction.clone().multiply(this.speedFactor));

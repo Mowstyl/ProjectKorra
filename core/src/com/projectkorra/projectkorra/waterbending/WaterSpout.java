@@ -263,7 +263,7 @@ public class WaterSpout extends WaterAbility {
 				}
 
 				final Location effectLoc2 = new Location(location.getWorld(), location.getX(), block.getY() + i, location.getZ());
-				effectLoc2.getWorld().spawnParticle(Particle.WATER_SPLASH, effectLoc2, 5, directions[index], directions[index], directions[index]);
+				effectLoc2.getWorld().spawnParticle(Particle.SPLASH, effectLoc2, 5, directions[index], directions[index], directions[index]);
 			}
 		}
 	}

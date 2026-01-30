@@ -92,7 +92,7 @@ public class WaterReturn extends WaterAbility {
 		} else if (isTransparent(this.player, newblock)) {
 			if (isWater(newblock)) {
 				Location loc = newblock.getLocation().clone().add(.5, .5, .5);
-				loc.getWorld().spawnParticle(Particle.WATER_BUBBLE, loc, 5, Math.random(), Math.random(), Math.random(), 0);
+				loc.getWorld().spawnParticle(Particle.BUBBLE, loc, 5, Math.random(), Math.random(), Math.random(), 0);
 			}
 		} else {
 			this.remove();

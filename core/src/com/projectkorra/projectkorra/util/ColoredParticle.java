@@ -18,6 +18,6 @@ public class ColoredParticle {
 	}
 
 	public void display(final Location loc, final int amount, final double offsetX, final double offsetY, final double offsetZ) {
-		loc.getWorld().spawnParticle(Particle.REDSTONE, loc, amount, offsetX, offsetY, offsetZ, this.dust);
+		loc.getWorld().spawnParticle(Particle.DUST, loc, amount, offsetX, offsetY, offsetZ, this.dust);
 	}
 }

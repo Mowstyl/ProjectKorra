@@ -149,7 +149,7 @@ public class AirSweep extends AirAbility implements ComboAbility {
 				fs.setDensity(1);
 				fs.setSpread(0F);
 				fs.setUseNewParticles(true);
-				fs.setParticleEffect(getAirbendingParticles());
+				fs.setParticleEffect(getAirbendingParticle());
 				fs.setCollides(false);
 				fs.runTaskTimer(ProjectKorra.plugin, (long) (i / 2.5), 1L);
 				this.tasks.add(fs);

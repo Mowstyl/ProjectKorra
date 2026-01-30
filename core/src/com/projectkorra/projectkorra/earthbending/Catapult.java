@@ -99,9 +99,9 @@ public class Catapult extends EarthAbility {
 					this.stageStart = System.currentTimeMillis();
 					final Random random = new Random();
 					Location loc = this.player.getLocation();
-					loc.getWorld().spawnParticle(Particle.BLOCK_DUST, loc, 15, random.nextFloat(), random.nextFloat(), random.nextFloat(), this.bentBlockData);
+					loc.getWorld().spawnParticle(Particle.BLOCK, loc, 15, random.nextFloat(), random.nextFloat(), random.nextFloat(), this.bentBlockData);
 					loc.add(0, 0.5, 0);
-					loc.getWorld().spawnParticle(Particle.BLOCK_DUST, loc, 10, random.nextFloat(), random.nextFloat(), random.nextFloat(), this.bentBlockData);
+					loc.getWorld().spawnParticle(Particle.BLOCK, loc, 10, random.nextFloat(), random.nextFloat(), random.nextFloat(), this.bentBlockData);
 					this.player.getWorld().playEffect(this.player.getLocation(), Effect.GHAST_SHOOT, 0, 10);
 				}
 			}

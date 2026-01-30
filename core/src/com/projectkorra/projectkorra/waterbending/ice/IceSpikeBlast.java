@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -98,12 +97,12 @@ public class IceSpikeBlast extends IceAbility {
 		DamageHandler.damageEntity(entity, this.damage, this);
 		if (entity instanceof Player) {
 			if (this.bPlayer.canBeSlowed()) {
-				final PotionEffect effect = new PotionEffect(PotionEffectType.SLOW, this.slowDuration, this.slowPotency);
+				final PotionEffect effect = new PotionEffect(PotionEffectType.SLOWNESS, this.slowDuration, this.slowPotency);
 				new TempPotionEffect(entity, effect);
 				this.bPlayer.slow(this.slowCooldown);
 			}
 		} else {
-			final PotionEffect effect = new PotionEffect(PotionEffectType.SLOW, this.slowDuration, this.slowPotency);
+			final PotionEffect effect = new PotionEffect(PotionEffectType.SLOWNESS, this.slowDuration, this.slowPotency);
 			new TempPotionEffect(entity, effect);
 		}
 		AirAbility.breakBreathbendingHold(entity);

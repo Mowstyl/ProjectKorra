@@ -291,7 +291,7 @@ public class Torrent extends WaterAbility {
 					loc.add(dx, dy, dz);
 					if (isWater(loc.getBlock()) && GeneralMethods.isAdjacentToThreeOrMoreSources(loc.getBlock())) {
 						Location bloc = loc.getBlock().getLocation().clone().add(.5, .5, .5);
-						loc.getWorld().spawnParticle(Particle.WATER_BUBBLE, bloc, 5, Math.random(), Math.random(), Math.random(), 0);
+						loc.getWorld().spawnParticle(Particle.BUBBLE, bloc, 5, Math.random(), Math.random(), Math.random(), 0);
 					}
 					loc.subtract(dx, dy, dz);
 				}
@@ -430,7 +430,7 @@ public class Torrent extends WaterAbility {
 			if (locBlock.getLocation().distanceSquared(targetLoc) > 1) {
 				if (isWater(locBlock)) {
 					Location loc = locBlock.getLocation().clone().add(.5, .5, .5);
-					loc.getWorld().spawnParticle(Particle.WATER_BUBBLE, loc, 5, Math.random(), Math.random(), Math.random(), 0);
+					loc.getWorld().spawnParticle(Particle.BUBBLE, loc, 5, Math.random(), Math.random(), Math.random(), 0);
 				}
 				newBlocks.add(new TempBlock(locBlock, Material.WATER));
 			} else {

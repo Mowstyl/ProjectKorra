@@ -82,7 +82,7 @@ public class JetBlaze extends FireAbility implements ComboAbility {
 		fs.setSpread(1.0F);
 		fs.setUseNewParticles(true);
 		fs.setCollisionRadius(2);
-		fs.setParticleEffect(Particle.SMOKE_LARGE);
+		fs.setParticleEffect(Particle.LARGE_SMOKE);
 		fs.setDamage(this.damage);
 		fs.setFireTicks(this.fireTicks);
 		fs.runTaskTimer(ProjectKorra.plugin, 0, 1L);

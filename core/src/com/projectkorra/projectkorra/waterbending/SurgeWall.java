@@ -268,7 +268,7 @@ public class SurgeWall extends WaterAbility {
 				return;
 			} else if (!this.progressing) {
 				Location loc = this.sourceBlock.getLocation().add(0.5, 0.5, 0.5);
-				loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 1);
+				loc.getWorld().spawnParticle(Particle.SMOKE, loc, 1);
 				return;
 			}
 
@@ -298,7 +298,7 @@ public class SurgeWall extends WaterAbility {
 								this.addWallBlock(block);
 							} else if (isWater(block) && !frozen) {
 								Location loc = block.getLocation().clone().add(.5, .5, .5);
-								loc.getWorld().spawnParticle(Particle.WATER_BUBBLE, loc, 1, ThreadLocalRandom.current().nextDouble(0, 0.5), ThreadLocalRandom.current().nextDouble(0, 0.5), ThreadLocalRandom.current().nextDouble(0, 0.5), 0);
+								loc.getWorld().spawnParticle(Particle.BUBBLE, loc, 1, ThreadLocalRandom.current().nextDouble(0, 0.5), ThreadLocalRandom.current().nextDouble(0, 0.5), ThreadLocalRandom.current().nextDouble(0, 0.5), 0);
 							}
 							blocks.add(block);
 							this.locations.add(block.getLocation());
