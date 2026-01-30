@@ -6,10 +6,13 @@ import java.util.Set;
 
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.region.RegionProtection;
+import com.projectkorra.projectkorra.util.TempBlock;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Lightable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -19,7 +22,6 @@ import com.projectkorra.projectkorra.ability.AirAbility;
 import com.projectkorra.projectkorra.ability.FireAbility;
 import com.projectkorra.projectkorra.ability.util.Collision;
 import com.projectkorra.projectkorra.attribute.Attribute;
-import com.projectkorra.projectkorra.avatar.AvatarState;
 import com.projectkorra.projectkorra.command.Commands;
 
 public class AirShield extends AirAbility {
@@ -134,7 +136,31 @@ public class AirShield extends AirAbility {
 			this.remove();
 			return;
 		}
+		this.extinguishBlocks();
 		this.rotateShield();
+	}
+
+	private void extinguishBlocks() {
+		for (final Block testblock : GeneralMethods.getBlocksAroundPoint(this.player.getLocation(), this.radius)) {
+			if (FireAbility.isFire(testblock.getType())) {
+				if (TempBlock.isTempBlock(testblock)) {
+					TempBlock.removeBlock(testblock);
+				}
+				else {
+					testblock.setType(Material.AIR);
+				}
+
+				testblock.getWorld().playEffect(testblock.getLocation(), Effect.EXTINGUISH, 0);
+			}
+			else if (Tag.CANDLES.isTagged(testblock.getType())
+					&& testblock.getBlockData() instanceof Lightable lightable) {
+                if (lightable.isLit()) {
+					lightable.setLit(false);
+					testblock.setBlockData(lightable);
+					testblock.getWorld().playEffect(testblock.getLocation(), Effect.EXTINGUISH, 0);
+				}
+			}
+		}
 	}
 
 	private void rotateShield() {
@@ -170,13 +196,6 @@ public class AirShield extends AirAbility {
 				velocity.multiply(this.pushFactor);
 				GeneralMethods.setVelocity(this, entity, velocity);
 				entity.setFallDistance(0);
-			}
-		}
-
-		for (final Block testblock : GeneralMethods.getBlocksAroundPoint(this.player.getLocation(), this.radius)) {
-			if (FireAbility.isFire(testblock.getType())) {
-				testblock.setType(Material.AIR);
-				testblock.getWorld().playEffect(testblock.getLocation(), Effect.EXTINGUISH, 0);
 			}
 		}
 

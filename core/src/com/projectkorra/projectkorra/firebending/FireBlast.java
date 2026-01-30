@@ -9,9 +9,10 @@ import com.projectkorra.projectkorra.attribute.markers.DayNightFactor;
 import com.projectkorra.projectkorra.region.RegionProtection;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.BlastFurnace;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Lightable;
 import org.bukkit.block.data.type.Campfire;
 import org.bukkit.block.Furnace;
 import org.bukkit.block.Smoker;
@@ -162,26 +163,35 @@ public class FireBlast extends FireAbility {
 				final Furnace furnace = (Furnace) block.getState();
 				furnace.setBurnTime((short) 800);
 				furnace.update();
-			} else if (block.getType() == Material.SMOKER && this.powerFurnace) {
+			}
+			else if (block.getType() == Material.SMOKER && this.powerFurnace) {
 				final Smoker smoker = (Smoker) block.getState();
 				smoker.setBurnTime((short) 800);
 				smoker.update();
-			} else if (block.getType() == Material.BLAST_FURNACE && this.powerFurnace) {
+			}
+			else if (block.getType() == Material.BLAST_FURNACE && this.powerFurnace) {
 				final BlastFurnace blastF = (BlastFurnace) block.getState();
 				blastF.setBurnTime((short) 800);
 				blastF.update();
-			} else if (block instanceof Campfire) {
+			}
+			else if (block instanceof Campfire) {
 				final Campfire campfire = (Campfire) block.getBlockData();
 				if(!campfire.isLit()) {
 					if(block.getType() != Material.SOUL_CAMPFIRE || bPlayer.canUseSubElement(SubElement.BLUE_FIRE)) {
 						campfire.setLit(true);
 					}
 				}
-			} else if (isIgnitable(this.location.getBlock())) {
+			}
+			else if (Tag.CANDLES.isTagged(block.getType()) && block.getBlockData() instanceof Lightable lightable) {
+				lightable.setLit(true);
+				block.setBlockData(lightable);
+			}
+			else if (isIgnitable(this.location.getBlock())) {
 				if (!this.isFireBurst || this.fireBurstIgnite) {
 					this.ignite(this.location);
 				}
-			} else if (block.getType() == Material.WET_SPONGE) {
+			}
+			else if (block.getType() == Material.WET_SPONGE) {
 				dryWetBlocks(block, this, true);
 			}
 			this.remove();
