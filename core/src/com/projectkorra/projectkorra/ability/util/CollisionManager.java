@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,8 +23,8 @@ import com.projectkorra.projectkorra.event.AbilityCollisionEvent;
  * collision between two abilities, as shown in {@link CollisionInitializer}.
  * <p>
  * Addon developers should use:<br>
- * ProjectKorra.getCollisionInitializer().addCollision(myCoreAbility)
- * ProjectKorra.getCollisionInitializer().addSmallAbility(myCoreAbility)
+ * {@code ProjectKorra.getCollisionInitializer().addCollision(myCoreAbility)}
+ * {@code ProjectKorra.getCollisionInitializer().addSmallAbility(myCoreAbility)}
  * <p>
  * For a CoreAbility to collide properly, the {@link CoreAbility#isCollidable}
  * , {@link CoreAbility#getCollisionRadius},
@@ -70,10 +72,8 @@ public class CollisionManager {
 		int activeInstanceCount = 0;
 
 		for (final CoreAbility ability : CoreAbility.getAbilitiesByInstances()) {
-			if (!(ability instanceof PassiveAbility)) {
-				if (++activeInstanceCount > 1) {
-					break;
-				}
+			if (!(ability instanceof PassiveAbility) && ++activeInstanceCount > 1) {
+				break;
 			}
 		}
 
@@ -81,7 +81,7 @@ public class CollisionManager {
 			return;
 		}
 
-		final HashMap<CoreAbility, List<Location>> locationsCache = new HashMap<>();
+		final Map<CoreAbility, List<Location>> locationsCache = new HashMap<>();
 
 		for (final Collision collision : this.collisions) {
 			final Collection<? extends CoreAbility> instancesFirst = CoreAbility.getAbilities(collision.getAbilityFirst().getClass());
@@ -92,7 +92,7 @@ public class CollisionManager {
 			if (instancesSecond.isEmpty()) {
 				continue;
 			}
-			final HashSet<CoreAbility> alreadyCollided = new HashSet<CoreAbility>();
+			final Set<CoreAbility> alreadyCollided = new HashSet<>();
 			final double certainNoCollisionDistSquared = Math.pow(this.certainNoCollisionDistance, 2);
 
 			for (final CoreAbility abilityFirst : instancesFirst) {
@@ -130,13 +130,13 @@ public class CollisionManager {
 					final double requiredDist = abilityFirst.getCollisionRadius() + abilitySecond.getCollisionRadius();
 					final double requiredDistSquared = Math.pow(requiredDist, 2);
 
-					for (int i = 0; i < locationsFirst.size(); i++) {
-						locationFirst = locationsFirst.get(i);
+					for (Location location : locationsFirst) {
+						locationFirst = location;
 						if (locationFirst == null) {
 							continue;
 						}
-						for (int j = 0; j < locationsSecond.size(); j++) {
-							locationSecond = locationsSecond.get(j);
+						for (Location value : locationsSecond) {
+							locationSecond = value;
 							if (locationSecond == null) {
 								continue;
 							}
@@ -191,14 +191,8 @@ public class CollisionManager {
 			return;
 		}
 
-		for (int x = 0; x < this.collisions.size(); x++) {
-			if (this.collisions.get(x).getAbilityFirst().equals(collision.getAbilityFirst())) {
-				if (this.collisions.get(x).getAbilitySecond().equals(collision.getAbilitySecond())) {
-					this.collisions.remove(x);
-				}
-			}
-		}
-
+		this.collisions.removeIf(existingCollision -> existingCollision.getAbilityFirst().equals(collision.getAbilityFirst())
+				&& existingCollision.getAbilitySecond().equals(collision.getAbilitySecond()));
 		this.collisions.add(collision);
 	}
 

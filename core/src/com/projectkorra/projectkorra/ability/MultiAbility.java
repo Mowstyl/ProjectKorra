@@ -1,6 +1,6 @@
 package com.projectkorra.projectkorra.ability;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.projectkorra.projectkorra.ability.util.MultiAbilityManager.MultiAbilityInfoSub;
 
@@ -14,6 +14,6 @@ public interface MultiAbility {
 	 *
 	 * @return a list of sub MultiAbilities
 	 */
-	public abstract ArrayList<MultiAbilityInfoSub> getMultiAbilities();
+	List<MultiAbilityInfoSub> getMultiAbilities();
 
 }
