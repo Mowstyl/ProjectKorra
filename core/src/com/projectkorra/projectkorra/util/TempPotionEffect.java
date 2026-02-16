@@ -14,7 +14,6 @@ public class TempPotionEffect {
 	private static final Map<LivingEntity, TempPotionEffect> INSTANCES = new ConcurrentHashMap<>();
 	private static final long tick = 21;
 
-	private int ID = Integer.MIN_VALUE;
 	private final List<PotionInfo> infos = new ArrayList<>();
 	private final LivingEntity entity;
 
@@ -26,10 +25,10 @@ public class TempPotionEffect {
 		this.entity = entity;
 		if (INSTANCES.containsKey(entity)) {
 			final TempPotionEffect instance = INSTANCES.get(entity);
-			instance.infos.add(instance.ID++, new PotionInfo(startTime, effect));
+			instance.infos.add(new PotionInfo(startTime, effect));
 			INSTANCES.put(entity, instance);
 		} else {
-			this.infos.add(this.ID++, new PotionInfo(startTime, effect));
+			this.infos.add(new PotionInfo(startTime, effect));
 			INSTANCES.put(entity, this);
 		}
 	}
