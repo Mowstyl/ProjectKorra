@@ -261,7 +261,7 @@ public class BlockSource {
 		if (allowWaterBottles) {
 			// Check the block in front of the player's eyes, it may have been created by a WaterBottle.
 			sourceBlock = WaterAbility.getWaterSourceBlock(player, range, allowPlant);
-			if (sourceBlock.getWorld().equals(player.getWorld()) && sourceBlock.getLocation().distance(player.getEyeLocation()) > 3) {
+			if (sourceBlock != null && sourceBlock.getWorld().equals(player.getWorld()) && sourceBlock.getLocation().distance(player.getEyeLocation()) > 3) {
 				sourceBlock = null;
 			}
 		}
