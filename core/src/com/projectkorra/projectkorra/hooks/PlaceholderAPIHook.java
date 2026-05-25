@@ -4,7 +4,6 @@ import static java.util.stream.Collectors.joining;
 
 import com.projectkorra.projectkorra.configuration.ConfigManager;
 import com.projectkorra.projectkorra.util.TimeUtil;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,6 +13,7 @@ import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.ProjectKorra;
 import com.projectkorra.projectkorra.ability.CoreAbility;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 	}
 
 	@Override
-	public String onPlaceholderRequest(final Player player, final String params) {
+	public String onPlaceholderRequest(final Player player, final @NonNull String params) {
 		final BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 		if (bPlayer == null) {
 			return "";
@@ -36,7 +36,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		if (params.startsWith("slot")) {
 			int index = bPlayer.getCurrentSlot() + 1;
 			if (!params.equals("slot")) {
-				index = Math.max(1, Math.min(9, Integer.parseInt(params.substring(params.length() - 1))));
+				index = Math.clamp(Integer.parseInt(params.substring(params.length() - 1)), 1, 9);
 			}
 			final String ability = bPlayer.getAbilities().get(index);
 			final CoreAbility coreAbil = CoreAbility.getAbility(ability);
@@ -52,9 +52,9 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 				c = Element.AVATAR.getColor();
 				e = Element.AVATAR.getName();
 				title = ConfigManager.languageConfig.get().getString("Chat.Prefixes.Avatar", c + "[Avatar]");
-			} else if (bPlayer.getElements().size() > 0) {
-				c = bPlayer.getElements().get(0).getColor();
-				e = bPlayer.getElements().get(0).getName();
+			} else if (!bPlayer.getElements().isEmpty()) {
+				c = bPlayer.getElements().getFirst().getColor();
+				e = bPlayer.getElements().getFirst().getName();
 				title = ConfigManager.languageConfig.get().getString("Chat.Prefixes." + e, c + "[" + e + "]");
 			}
 			if (params.equals("element")) {
@@ -74,7 +74,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 			if (string.startsWith("slot")) {
 				int index = bPlayer.getCurrentSlot() + 1;
 				if (!string.equals("slot")) {
-					index = Math.max(1, Math.min(9, Integer.parseInt(string.substring(string.length() - 1))));
+					index = Math.clamp(Integer.parseInt(string.substring(string.length() - 1)), 1, 9);
 				}
 				final String ability = bPlayer.getAbilities().get(index);
 				return TimeUtil.formatTime(bPlayer.getCooldown(ability) == -1 ? 0 : bPlayer.getCooldown(ability) - System.currentTimeMillis());
@@ -102,22 +102,22 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 	}
 
 	@Override
-	public String getAuthor() {
+	public @NonNull String getAuthor() {
 		return this.plugin.getDescription().getAuthors().toString();
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NonNull String getIdentifier() {
 		return "ProjectKorra";
 	}
 
 	@Override
-	public String getVersion() {
+	public @NonNull String getVersion() {
 		return this.plugin.getDescription().getVersion();
 	}
 
 	@Override
-	public List<String> getPlaceholders() {
+	public @NonNull List<String> getPlaceholders() {
 		return Arrays.asList("slot", "slot1", "slot2", "slot3", "slot4", "slot5", "slot6", "slot7", "slot8", "slot9",
 				"element", "elementcolor", "elements", "subelements", "element_prefix",
 				"cooldown_<ability>", "cooldown_slot", "cooldown_slot<1-9>", "cooldown_choose");
