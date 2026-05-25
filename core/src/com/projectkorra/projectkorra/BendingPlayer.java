@@ -74,6 +74,7 @@ public class BendingPlayer extends OfflineBendingPlayer {
 	protected boolean tremorSense;
 	protected boolean illumination;
 	protected boolean chiBlocked;
+	protected boolean hasWaterPouch;
 
 	public BendingPlayer(OfflineBendingPlayer player) {
 		super(player);
@@ -82,6 +83,7 @@ public class BendingPlayer extends OfflineBendingPlayer {
 		this.tremorSense = true;
 		this.illumination = true;
 		this.chiBlocked = false;
+		this.hasWaterPouch = false;
 	}
 
 	public BendingPlayer(Player player) {
@@ -91,6 +93,18 @@ public class BendingPlayer extends OfflineBendingPlayer {
 		this.tremorSense = true;
 		this.illumination = true;
 		this.chiBlocked = false;
+		this.hasWaterPouch = false;
+	}
+
+	/**
+	 * Sets hasWaterPouch to value.
+	 */
+	public void setWaterPouch(boolean value) {
+		this.hasWaterPouch = value;
+	}
+
+	public boolean hasWaterPouch() {
+		return this.hasWaterPouch;
 	}
 
 	/**

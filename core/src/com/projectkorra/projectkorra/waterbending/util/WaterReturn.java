@@ -2,6 +2,7 @@ package com.projectkorra.projectkorra.waterbending.util;
 
 import java.util.HashMap;
 
+import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.attribute.Attribute;
 import com.projectkorra.projectkorra.attribute.markers.DayNightFactor;
 import org.bukkit.Location;
@@ -43,7 +44,9 @@ public class WaterReturn extends WaterAbility {
 		this.interval = 50;
 
 		if (this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
-			if (isTransparent(player, block) && ((TempBlock.isTempBlock(block) && block.isLiquid()) || !block.isLiquid()) && this.hasEmptyWaterBottle()) {
+			if (isTransparent(player, block)
+					&& ((TempBlock.isTempBlock(block) && block.isLiquid()) || !block.isLiquid())
+					&& (this.hasEmptyWaterBottle() || this.bPlayer.hasWaterPouch())) {
 				this.block = new TempBlock(block, Material.WATER);
 			}
 		}
@@ -55,7 +58,7 @@ public class WaterReturn extends WaterAbility {
 		if (!this.bPlayer.canBendIgnoreBindsCooldowns(this)) {
 			this.remove();
 			return;
-		} else if (!this.hasEmptyWaterBottle()) {
+		} else if (!this.hasEmptyWaterBottle() || this.bPlayer.hasWaterPouch()) {
 			this.remove();
 			return;
 		} else if (System.currentTimeMillis() < this.time + this.interval) {
@@ -170,6 +173,9 @@ public class WaterReturn extends WaterAbility {
 	public static boolean hasWaterBottle(final Player player) {
 		if (hasAbility(player, WaterReturn.class) || isBending(player)) {
 			return false;
+		}
+		if (BendingPlayer.getBendingPlayer(player).hasWaterPouch()) {
+			return true;
 		}
 		final PlayerInventory inventory = player.getInventory();
 
