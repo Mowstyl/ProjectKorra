@@ -1594,12 +1594,12 @@ public class GeneralMethods {
 
 	public static int getMCVersion() {
 		String version = Bukkit.getBukkitVersion().split("-", 2)[0];
-		if (!version.matches("\\d+\\.\\d+(\\.\\d+)?")) {
+		if (!version.matches("\\d+\\.\\d+(\\.\\d+)?(\\.build\\.\\d+)?")) {
 			ProjectKorra.log.warning("Version not valid! Cannot parse version \"" + version + "\"");
 			return 1164; //1.16.4
 		}
 
-		String[] split = version.split("\\.", 3);
+		String[] split = version.split("\\.", 4);
 
 		int major = Integer.parseInt(split[0]);
 		int minor = 0;
